@@ -27,6 +27,7 @@ export interface WordRepository {
 export interface ReviewRepository {
   get(wordId: string): Promise<ReviewState | undefined>;
   getAll(): Promise<ReviewState[]>;
+  count(): Promise<number>;
   getDue(today: string): Promise<ReviewState[]>;
   countDue(today: string): Promise<number>;
   put(state: ReviewState): Promise<void>;

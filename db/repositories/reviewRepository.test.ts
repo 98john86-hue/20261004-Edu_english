@@ -36,6 +36,7 @@ describe('reviewRepository', () => {
     await repo.put(state('a', '2026-10-05'));
     await repo.put({ ...state('a', '2026-10-11'), interval: 6, repetitions: 2 });
     expect(await repo.getAll()).toHaveLength(1);
+    expect(await repo.count()).toBe(1);
     expect((await repo.get('a'))?.interval).toBe(6);
     await repo.delete('a');
     expect(await repo.get('a')).toBeUndefined();

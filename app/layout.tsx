@@ -2,11 +2,14 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { BottomNav } from '@/components/BottomNav';
 import { DbGate } from '@/components/DbGate';
+import { ServiceWorkerRegister } from '@/components/ServiceWorkerRegister';
 import './globals.css';
 
 export const metadata: Metadata = {
   title: '매일 영단어',
   description: '플래시카드와 간격 반복으로 매일 영어 단어를 외우는 학습 앱',
+  applicationName: '매일 영단어',
+  appleWebApp: { capable: true, title: '매일 영단어', statusBarStyle: 'default' },
 };
 
 export const viewport: Viewport = {
@@ -23,6 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <DbGate>{children}</DbGate>
         </main>
         <BottomNav />
+        <ServiceWorkerRegister />
       </body>
     </html>
   );
