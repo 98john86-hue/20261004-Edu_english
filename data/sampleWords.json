@@ -1,0 +1,422 @@
+[
+  {
+    "id": "builtin-b01",
+    "term": "borrow",
+    "meaning": "빌리다",
+    "example": "Can I borrow your pen for a minute?",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b02",
+    "term": "carry",
+    "meaning": "들고 가다, 나르다",
+    "example": "She carried the heavy box up the stairs.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b03",
+    "term": "cheap",
+    "meaning": "값이 싼",
+    "example": "This bag was cheap, but it is very strong.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b04",
+    "term": "quiet",
+    "meaning": "조용한",
+    "example": "The library is quiet in the morning.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b05",
+    "term": "hungry",
+    "meaning": "배고픈",
+    "example": "I skipped lunch, so I am really hungry now.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b06",
+    "term": "early",
+    "meaning": "일찍; 이른",
+    "example": "He gets up early to walk his dog.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b07",
+    "term": "kitchen",
+    "meaning": "부엌",
+    "example": "My father is making soup in the kitchen.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b08",
+    "term": "weather",
+    "meaning": "날씨",
+    "example": "The weather is perfect for a picnic today.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b09",
+    "term": "remember",
+    "meaning": "기억하다",
+    "example": "Do you remember the name of that café?",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b10",
+    "term": "answer",
+    "meaning": "대답하다; 대답",
+    "example": "Please answer the question in English.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b11",
+    "term": "favorite",
+    "meaning": "가장 좋아하는",
+    "example": "Blue is my favorite color.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b12",
+    "term": "market",
+    "meaning": "시장",
+    "example": "We buy fresh fruit at the market on Saturdays.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b13",
+    "term": "tired",
+    "meaning": "피곤한",
+    "example": "I was tired after the long bus ride.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b14",
+    "term": "visit",
+    "meaning": "방문하다",
+    "example": "We visit our grandparents every holiday.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b15",
+    "term": "window",
+    "meaning": "창문",
+    "example": "Could you open the window? It's hot in here.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b16",
+    "term": "decide",
+    "meaning": "결정하다",
+    "example": "I can't decide what to eat for dinner.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b17",
+    "term": "brave",
+    "meaning": "용감한",
+    "example": "The brave girl helped the lost puppy find its home.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b18",
+    "term": "forget",
+    "meaning": "잊다",
+    "example": "Don't forget to bring your umbrella.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b19",
+    "term": "healthy",
+    "meaning": "건강한",
+    "example": "Eating vegetables helps you stay healthy.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-b20",
+    "term": "practice",
+    "meaning": "연습하다; 연습",
+    "example": "I practice the piano for thirty minutes a day.",
+    "level": "beginner"
+  },
+  {
+    "id": "builtin-i01",
+    "term": "achieve",
+    "meaning": "달성하다, 이루다",
+    "example": "She worked hard to achieve her goal.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i02",
+    "term": "avoid",
+    "meaning": "피하다",
+    "example": "Try to avoid sugary drinks before bed.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i03",
+    "term": "confident",
+    "meaning": "자신감 있는",
+    "example": "He felt confident before the job interview.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i04",
+    "term": "convenient",
+    "meaning": "편리한",
+    "example": "Online banking is convenient for busy people.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i05",
+    "term": "deadline",
+    "meaning": "마감 기한",
+    "example": "The deadline for the report is next Friday.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i06",
+    "term": "efficient",
+    "meaning": "효율적인",
+    "example": "This new heater is more efficient than the old one.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i07",
+    "term": "encourage",
+    "meaning": "격려하다, 장려하다",
+    "example": "My teacher encouraged me to join the speech contest.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i08",
+    "term": "opportunity",
+    "meaning": "기회",
+    "example": "Studying abroad was a great opportunity for him.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i09",
+    "term": "improve",
+    "meaning": "향상시키다, 개선하다",
+    "example": "Reading every day can improve your vocabulary.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i10",
+    "term": "reliable",
+    "meaning": "믿을 수 있는",
+    "example": "We need a reliable car for the long trip.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i11",
+    "term": "recommend",
+    "meaning": "추천하다",
+    "example": "Can you recommend a good book for beginners?",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i12",
+    "term": "responsible",
+    "meaning": "책임이 있는; 책임감 있는",
+    "example": "Who is responsible for locking the office tonight?",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i13",
+    "term": "schedule",
+    "meaning": "일정",
+    "example": "My schedule is completely full this week.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i14",
+    "term": "suggest",
+    "meaning": "제안하다",
+    "example": "I suggest we leave early to avoid the traffic.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i15",
+    "term": "complain",
+    "meaning": "불평하다",
+    "example": "The neighbors complained about the loud music.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i16",
+    "term": "delay",
+    "meaning": "지연시키다; 지연",
+    "example": "The flight was delayed because of the storm.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i17",
+    "term": "familiar",
+    "meaning": "익숙한, 친숙한",
+    "example": "This song sounds familiar to me.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i18",
+    "term": "purpose",
+    "meaning": "목적",
+    "example": "What is the purpose of your visit?",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i19",
+    "term": "compare",
+    "meaning": "비교하다",
+    "example": "Let's compare the prices before we buy anything.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-i20",
+    "term": "patient",
+    "meaning": "참을성 있는; 환자",
+    "example": "Be patient. The bus will come soon.",
+    "level": "intermediate"
+  },
+  {
+    "id": "builtin-a01",
+    "term": "ambiguous",
+    "meaning": "모호한, 애매한",
+    "example": "His reply was so ambiguous that nobody knew what he meant.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a02",
+    "term": "meticulous",
+    "meaning": "꼼꼼한, 세심한",
+    "example": "She is meticulous about checking every detail.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a03",
+    "term": "inevitable",
+    "meaning": "피할 수 없는, 불가피한",
+    "example": "Some mistakes are inevitable when you learn something new.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a04",
+    "term": "resilient",
+    "meaning": "회복력 있는, 쉽게 꺾이지 않는",
+    "example": "Children are often more resilient than adults think.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a05",
+    "term": "scrutinize",
+    "meaning": "면밀히 조사하다",
+    "example": "The editor scrutinized every sentence of the article.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a06",
+    "term": "pragmatic",
+    "meaning": "실용적인, 현실적인",
+    "example": "We need a pragmatic solution, not a perfect one.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a07",
+    "term": "compelling",
+    "meaning": "설득력 있는, 강렬한",
+    "example": "The lawyer presented a compelling argument.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a08",
+    "term": "deteriorate",
+    "meaning": "악화되다",
+    "example": "The old bridge began to deteriorate after years of heavy rain.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a09",
+    "term": "eloquent",
+    "meaning": "말을 잘하는, 유창한",
+    "example": "She gave an eloquent speech at the graduation ceremony.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a10",
+    "term": "frugal",
+    "meaning": "검소한, 절약하는",
+    "example": "Being frugal helped them save money for a new house.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a11",
+    "term": "hinder",
+    "meaning": "방해하다, 지연시키다",
+    "example": "Strong winds hindered the rescue team.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a12",
+    "term": "advocate",
+    "meaning": "옹호하다; 지지자",
+    "example": "She advocates for cleaner public parks in her city.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a13",
+    "term": "obsolete",
+    "meaning": "더 이상 쓰이지 않는, 구식의",
+    "example": "Fax machines are almost obsolete in most offices.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a14",
+    "term": "profound",
+    "meaning": "깊은, 심오한",
+    "example": "The trip had a profound effect on how she sees the world.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a15",
+    "term": "reluctant",
+    "meaning": "꺼리는, 마지못한",
+    "example": "He was reluctant to speak in front of the whole class.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a16",
+    "term": "substantial",
+    "meaning": "상당한",
+    "example": "The company made a substantial investment in research.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a17",
+    "term": "tentative",
+    "meaning": "잠정적인",
+    "example": "We made a tentative plan to meet again next month.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a18",
+    "term": "versatile",
+    "meaning": "다재다능한, 다용도의",
+    "example": "A good knife is a versatile tool in any kitchen.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a19",
+    "term": "alleviate",
+    "meaning": "완화하다, 덜어 주다",
+    "example": "A short walk can alleviate stress after work.",
+    "level": "advanced"
+  },
+  {
+    "id": "builtin-a20",
+    "term": "diligent",
+    "meaning": "성실한, 부지런한",
+    "example": "The diligent student reviewed her notes every night.",
+    "level": "advanced"
+  }
+]
