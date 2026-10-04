@@ -30,6 +30,17 @@ function currentTerm(): string {
   return within(screen.getByRole('article')).getByRole('heading', { level: 2 }).textContent ?? '';
 }
 
+async function gradeWithKeyboard(user: ReturnType<typeof userEvent.setup>, key: string) {
+  const before = screen.queryByLabelText('진행 상황')?.textContent;
+  await user.keyboard(' ');
+  await user.keyboard(key);
+  await waitFor(() => {
+    const finished = screen.queryByRole('heading', { name: /학습 완료/ });
+    expect(finished ?? screen.getByLabelText('진행 상황').textContent !== before).toBeTruthy();
+    if (!finished) expect(screen.getByLabelText('카드 앞면')).toBeInTheDocument();
+  });
+}
+
 function progressText(): string {
   return screen.getByLabelText('진행 상황').textContent ?? '';
 }
@@ -185,10 +196,7 @@ describe('StudySession: 새 단어 한도와 빈 상태', () => {
     const user = await setup(words);
     expect(progressText()).toBe('1 / 5');
 
-    for (let i = 0; i < 5; i += 1) {
-      await user.keyboard(' ');
-      await user.keyboard('3');
-    }
+    for (let i = 0; i < 5; i += 1) await gradeWithKeyboard(user, '3');
     await screen.findByRole('heading', { name: /학습 완료/ });
     expect(await db.meta.get('newWords:2026-10-04')).toEqual({ key: 'newWords:2026-10-04', value: '5' });
 
@@ -231,8 +239,7 @@ describe('StudySession: 새 단어 한도와 빈 상태', () => {
     await screen.findByLabelText('카드 앞면');
     expect(currentTerm()).toBe('due');
     expect(screen.queryByText('새 단어')).not.toBeInTheDocument();
-    await user.keyboard(' ');
-    await user.keyboard('3');
+    await gradeWithKeyboard(user, '3');
     await screen.findByRole('heading', { name: /학습 완료/ });
     expect(await db.reviews.get('due')).toMatchObject({ interval: 8, repetitions: 3, dueDate: '2026-10-12' });
   });
