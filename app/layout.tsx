@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
+import { BottomNav } from '@/components/BottomNav';
 import { DbGate } from '@/components/DbGate';
 import './globals.css';
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main className="mx-auto w-full max-w-2xl flex-1 px-4 py-6">
           <DbGate>{children}</DbGate>
         </main>
+        <BottomNav />
       </body>
     </html>
   );

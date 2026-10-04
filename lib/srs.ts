@@ -93,3 +93,9 @@ export function review(state: ReviewState, grade: Grade, today: string): ReviewS
     lastReviewedAt: today,
   };
 }
+
+export function describeInterval(days: number): string {
+  if (days <= 0) return '오늘';
+  if (days === 1) return '내일';
+  return `${days}일 후`;
+}

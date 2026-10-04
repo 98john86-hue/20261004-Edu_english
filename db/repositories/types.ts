@@ -53,3 +53,10 @@ export class ReadonlyWordError extends Error {
     this.name = 'ReadonlyWordError';
   }
 }
+
+// 하루 새 단어 한도를 지키려면 "오늘 처음 학습한 새 단어 수"가 필요한데, 이 값은
+// ReviewState만으로는 알 수 없어서(실패하면 repetitions가 0으로 돌아감) 따로 센다.
+export interface DailyProgressRepository {
+  getNewWordCount(date: string): Promise<number>;
+  incrementNewWordCount(date: string): Promise<number>;
+}

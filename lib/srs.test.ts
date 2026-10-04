@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   createInitialReviewState,
+  describeInterval,
   GRADE_TO_QUALITY,
   INITIAL_EASE_FACTOR,
   isCorrectGrade,
@@ -172,5 +173,13 @@ describe('review: 날짜 경계', () => {
 
   it('잘못된 날짜 문자열은 거부한다', () => {
     expect(() => review(fresh(), 2, '2026/10/04')).toThrow(RangeError);
+  });
+});
+
+describe('describeInterval', () => {
+  it('평가 버튼에 보여 줄 다음 복습 시점 문구', () => {
+    expect(describeInterval(0)).toBe('오늘');
+    expect(describeInterval(1)).toBe('내일');
+    expect(describeInterval(6)).toBe('6일 후');
   });
 });

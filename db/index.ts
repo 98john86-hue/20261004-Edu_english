@@ -1,7 +1,9 @@
 import { createDatabase, type VocabDatabase } from './database';
+import { createDailyProgressRepository } from './repositories/dailyProgressRepository';
 import { createReviewRepository } from './repositories/reviewRepository';
 import { createStudyLogRepository } from './repositories/studyLogRepository';
 import type {
+  DailyProgressRepository,
   ReviewRepository,
   StudyLogRepository,
   WordRepository,
@@ -15,6 +17,7 @@ export interface Repositories {
   words: WordRepository;
   reviews: ReviewRepository;
   studyLogs: StudyLogRepository;
+  dailyProgress: DailyProgressRepository;
 }
 
 let database: VocabDatabase | null = null;
@@ -30,14 +33,18 @@ function getDatabase(): VocabDatabase {
 
 export function getRepositories(): Repositories {
   if (!repositories) {
-    const db = getDatabase();
-    repositories = {
-      words: createWordRepository(db),
-      reviews: createReviewRepository(db),
-      studyLogs: createStudyLogRepository(db),
-    };
+    repositories = createRepositories(getDatabase());
   }
   return repositories;
+}
+
+export function createRepositories(db: VocabDatabase): Repositories {
+  return {
+    words: createWordRepository(db),
+    reviews: createReviewRepository(db),
+    studyLogs: createStudyLogRepository(db),
+    dailyProgress: createDailyProgressRepository(db),
+  };
 }
 
 export class StorageUnavailableError extends Error {
