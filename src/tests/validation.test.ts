@@ -6,7 +6,7 @@ const validData: SignupData = {
   name: '물개',
   phone: '010-1234-5678',
   email: 'swimmer@example.com',
-  level: 'beginner',
+  frequency: 'two-three',
   agreed: true,
 };
 
@@ -51,16 +51,16 @@ describe('formatPhone', () => {
 
 describe('validateSignup', () => {
   it('필수 항목이 비어 있으면 각각 에러를 반환한다', () => {
-    const errors = validateSignup({ name: ' ', phone: '', email: '', level: 'beginner', agreed: false });
-    expect(Object.keys(errors).sort()).toEqual(['agreed', 'email', 'name', 'phone']);
+    const errors = validateSignup({ name: ' ', phone: '', email: '', agreed: false });
+    expect(Object.keys(errors).sort()).toEqual(['agreed', 'email', 'frequency', 'name', 'phone']);
   });
 
-  it('필수 항목만 올바르면 에러가 없다 (선택 항목 생략 가능)', () => {
+  it('필수 항목만 올바르면 에러가 없다 (강습 레벨 등 선택 항목 생략 가능)', () => {
     expect(validateSignup(validData)).toEqual({});
   });
 
   it('선택 항목을 포함해도 에러가 없다', () => {
-    expect(validateSignup({ ...validData, goal: '호흡 편하게', referral: 'instagram' })).toEqual({});
+    expect(validateSignup({ ...validData, level: 'intermediate', goal: '호흡 편하게', referral: 'blog' })).toEqual({});
   });
 
   it('잘못된 휴대폰 번호에 에러를 반환한다', () => {

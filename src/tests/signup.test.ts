@@ -13,6 +13,7 @@ describe('submitSignup', () => {
       name: '물개',
       phone: '010-1234-5678',
       email: 'swimmer@example.com',
+      frequency: 'two-three',
       level: 'beginner',
       agreed: true,
     }).then((r) => {
@@ -27,7 +28,7 @@ describe('submitSignup', () => {
   });
 
   it('잘못된 입력은 실패와 메시지를 반환한다', async () => {
-    const result = await submitSignup({ name: '물개', phone: '010-1234-5678', email: 'bad', level: 'beginner', agreed: true });
+    const result = await submitSignup({ name: '물개', phone: '010-1234-5678', email: 'bad', frequency: 'once', agreed: true });
     expect(result.ok).toBe(false);
   });
 });

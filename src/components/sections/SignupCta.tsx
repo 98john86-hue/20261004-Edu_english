@@ -3,12 +3,13 @@
 import { useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { levelOrder, signup } from '@/content/landing';
 import { submitSignup } from '@/lib/signup';
-import type { ReferralSource, SignupData } from '@/lib/types';
+import type { ReferralSource, SignupData, SwimFrequency } from '@/lib/types';
 import {
   formatPhone,
   normalizePhone,
   signupFieldOrder,
   validateSignup,
+  type SignupDraft,
   type SignupErrors,
   type SignupField,
 } from '@/lib/validation';
@@ -19,11 +20,20 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
 
-type FormValues = { name: string; phone: string; email: string; goal: string; referral: ReferralSource | ''; agreed: boolean };
+type FormValues = {
+  name: string;
+  phone: string;
+  email: string;
+  frequency: SwimFrequency | '';
+  goal: string;
+  referral: ReferralSource | '';
+  agreed: boolean;
+};
 
-const emptyValues: FormValues = { name: '', phone: '', email: '', goal: '', referral: '', agreed: false };
+const emptyValues: FormValues = { name: '', phone: '', email: '', frequency: '', goal: '', referral: '', agreed: false };
 
 const referralKeys = Object.keys(signup.referralOptions) as ReferralSource[];
+const frequencyKeys = Object.keys(signup.frequencyOptions) as SwimFrequency[];
 
 const inputClass =
   'mt-4 w-full border-0 border-b-2 bg-transparent px-0 py-2 text-base text-slate-900 placeholder:text-slate-500 focus:border-teal-600 focus:ring-0';
@@ -58,7 +68,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 const errorId = (field: SignupField) => `signup-${field}-error`;
 
 export function SignupCta() {
-  const { level, setLevel } = useLevel();
+  const { level, chosen, setLevel, clearChosen } = useLevel();
   const [values, setValues] = useState<FormValues>(emptyValues);
   const [errors, setErrors] = useState<SignupErrors>({});
   const [status, setStatus] = useState<Status>('idle');
@@ -79,24 +89,26 @@ export function SignupCta() {
     if (status === 'loading') return;
 
     const goal = values.goal.trim();
-    const data: SignupData = {
+    const draft: SignupDraft = {
       name: values.name.trim(),
       phone: normalizePhone(values.phone),
       email: values.email.trim(),
-      level,
       agreed: values.agreed,
+      ...(values.frequency ? { frequency: values.frequency } : {}),
+      ...(chosen ? { level } : {}),
       ...(goal ? { goal } : {}),
       ...(values.referral ? { referral: values.referral } : {}),
     };
 
-    const nextErrors = validateSignup(data);
+    const nextErrors = validateSignup(draft);
     setErrors(nextErrors);
     // 화면 순서상 첫 번째 에러 필드로 포커스 이동
     const firstInvalid = signupFieldOrder.find((field) => nextErrors[field]);
-    if (firstInvalid) {
-      fieldRefs.current[firstInvalid]?.focus();
+    if (firstInvalid || !draft.frequency) {
+      if (firstInvalid) fieldRefs.current[firstInvalid]?.focus();
       return;
     }
+    const data: SignupData = { ...draft, frequency: draft.frequency };
 
     setStatus('loading');
     setErrorMessage('');
@@ -117,6 +129,7 @@ export function SignupCta() {
 
   const clearForm = () => {
     setValues(emptyValues);
+    clearChosen();
     setErrors({});
     setStatus('idle');
     setErrorMessage('');
@@ -240,26 +253,56 @@ export function SignupCta() {
                 <FieldError id={errorId('email')} message={errors.email} />
               </QuestionCard>
 
-              <QuestionCard>
-                <fieldset aria-describedby="signup-level-hint">
-                  <legend className="block font-bold text-slate-900">
-                    {signup.levelLabel}
+              <QuestionCard error={errors.frequency}>
+                <fieldset aria-describedby={describedBy('frequency')}>
+                  <legend className="font-bold text-slate-900">
+                    {signup.frequencyLabel}
                     <RequiredMark />
                   </legend>
+                  <div className="mt-4 grid gap-1 sm:grid-cols-2">
+                    {frequencyKeys.map((key, i) => (
+                      <label key={key} className="flex cursor-pointer items-center gap-3 rounded-lg px-1 py-2 hover:bg-slate-50">
+                        <input
+                          ref={
+                            i === 0
+                              ? (el) => {
+                                  fieldRefs.current.frequency = el;
+                                }
+                              : undefined
+                          }
+                          type="radio"
+                          name="frequency"
+                          value={key}
+                          required
+                          checked={values.frequency === key}
+                          onChange={() => update('frequency', key)}
+                          aria-invalid={errors.frequency ? true : undefined}
+                          className="size-5 shrink-0 accent-teal-700"
+                        />
+                        <span className="text-slate-800">{signup.frequencyOptions[key]}</span>
+                      </label>
+                    ))}
+                  </div>
+                  <FieldError id={errorId('frequency')} message={errors.frequency} />
+                </fieldset>
+              </QuestionCard>
+
+              <QuestionCard>
+                <fieldset aria-describedby="signup-level-hint">
+                  <legend className="font-bold text-slate-900">{signup.levelLabel}</legend>
                   <p id="signup-level-hint" className="mt-1 text-sm text-slate-600">
                     {signup.levelHint}
                   </p>
-                  <div className="mt-4 flex flex-col gap-1">
+                  <div className="mt-4 grid gap-1 sm:grid-cols-3">
                     {levelOrder.map((key) => (
-                      <label key={key} className="flex cursor-pointer items-start gap-3 rounded-lg px-1 py-2 hover:bg-slate-50">
+                      <label key={key} className="flex cursor-pointer items-center gap-3 rounded-lg px-1 py-2 hover:bg-slate-50">
                         <input
                           type="radio"
                           name="level"
                           value={key}
-                          required
-                          checked={level === key}
+                          checked={chosen && level === key}
                           onChange={() => setLevel(key)}
-                          className="mt-0.5 size-5 shrink-0 accent-teal-700"
+                          className="size-5 shrink-0 accent-teal-700"
                         />
                         <span className="text-slate-800">{signup.levelOptions[key]}</span>
                       </label>

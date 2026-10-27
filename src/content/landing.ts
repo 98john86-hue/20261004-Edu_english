@@ -1,4 +1,4 @@
-import type { DayStatus, DistanceLog, LearningLog, Level, ReferralSource, Stroke } from '@/lib/types';
+import type { DayStatus, DistanceLog, LearningLog, Level, ReferralSource, Stroke, SwimFrequency } from '@/lib/types';
 
 /** 페이지의 모든 문구와 예시 데이터. 컴포넌트에는 문구를 하드코딩하지 않는다. */
 
@@ -257,28 +257,34 @@ export const signup = {
   phonePlaceholder: '010-1234-5678',
   emailLabel: '이메일',
   emailPlaceholder: 'you@example.com',
-  levelLabel: '지금 수영은 어느 정도 하고 계세요?',
-  levelHint: '위에서 고른 난이도가 기본으로 선택돼요.',
+  frequencyLabel: '지금 수영은 어느 정도 하고 계세요?',
+  frequencyOptions: {
+    once: '주 1회',
+    'two-three': '주 2~3회',
+    five: '주 5회',
+    six: '주 6회',
+  } satisfies Record<SwimFrequency, string>,
+  levelLabel: '지금 수영 강습 등록을 하셨다면 레벨은?',
+  levelHint: '강습을 듣지 않으면 비워 두셔도 돼요. 위에서 난이도를 고르면 여기에도 반영돼요.',
   levelOptions: {
-    beginner: '초급 · 물에 뜨는 연습 중이거나 오랜만에 다시 시작해요',
-    intermediate: '중급 · 네 가지 영법을 배웠고 거리를 늘리는 중이에요',
-    advanced: '상급 · 인터벌 훈련을 하며 기록을 다듬고 있어요',
+    beginner: '초급',
+    intermediate: '중급',
+    advanced: '상급',
   } satisfies Record<Level, string>,
   goalLabel: '이번 30일 동안 가장 바꾸고 싶은 건 뭐예요?',
   goalPlaceholder: '예: 자유형 호흡이 편해졌으면 좋겠어요',
   referralLabel: '어디서 보고 오셨어요?',
   referralOptions: {
-    'youtube-shorts': '유튜브 쇼츠',
     youtube: '유튜브 영상',
     threads: '스레드',
-    instagram: '인스타그램',
+    blog: '블로그',
     friend: '지인 소개',
     other: '기타',
   } satisfies Record<ReferralSource, string>,
   agreeTitle: '개인정보 수집·이용 동의',
   agreeLabel: '동의합니다.',
   agreeDetail:
-    '수집 항목: 이름(닉네임), 휴대폰 번호, 이메일, 수영 수준, 목표, 유입 경로 · 이용 목적: 챌린지 일정 안내 · 보유 기간: 챌린지 종료 시까지',
+    '수집 항목: 이름(닉네임), 휴대폰 번호, 이메일, 수영 빈도, 강습 레벨, 목표, 유입 경로 · 이용 목적: 챌린지 일정 안내 · 보유 기간: 챌린지 종료 시까지',
   clearLabel: '양식 지우기',
   submit: '사전 신청 제출하기',
   submitting: '등록하는 중…',
@@ -291,6 +297,7 @@ export const signup = {
     phoneRequired: '휴대폰 번호를 입력해 주세요.',
     phoneInvalid: '올바른 휴대폰 번호가 아니에요. 예: 010-1234-5678',
     emailRequired: '이메일을 입력해 주세요.',
+    frequencyRequired: '수영하는 빈도를 선택해 주세요.',
     emailInvalid: '올바른 이메일 형식이 아니에요. 예: you@example.com',
     agreeRequired: '개인정보 수집·이용에 동의해 주세요.',
     goalTooLong: '200자 이내로 입력해 주세요.',
