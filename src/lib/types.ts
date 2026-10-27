@@ -18,7 +18,17 @@ export type LearningLog = {
 
 export type SwimLog = DistanceLog | LearningLog;
 
-export type SignupData = { email: string; level: Level; agreed: boolean };
+export type ReferralSource = 'youtube-shorts' | 'youtube' | 'threads' | 'instagram' | 'friend' | 'other';
+
+export type SignupData = {
+  name: string; // 이름 또는 닉네임 (필수)
+  phone: string; // 연락받을 휴대폰 번호 (필수)
+  email: string; // 필수
+  level: Level; // 지금 수영 수준 (필수)
+  goal?: string; // 30일 동안 가장 바꾸고 싶은 것 (선택)
+  referral?: ReferralSource; // 유입 경로 (선택)
+  agreed: boolean; // 개인정보 수집·이용 동의 (필수)
+};
 export type SignupResult = { ok: true } | { ok: false; message: string };
 
 /** 30일 미리보기 그리드의 하루 상태 */

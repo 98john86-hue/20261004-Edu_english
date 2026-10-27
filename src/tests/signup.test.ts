@@ -9,7 +9,13 @@ describe('submitSignup', () => {
   it('1초 지연 후 성공을 반환한다', async () => {
     vi.useFakeTimers();
     let settled = false;
-    const promise = submitSignup({ email: 'swimmer@example.com', level: 'beginner', agreed: true }).then((r) => {
+    const promise = submitSignup({
+      name: '물개',
+      phone: '010-1234-5678',
+      email: 'swimmer@example.com',
+      level: 'beginner',
+      agreed: true,
+    }).then((r) => {
       settled = true;
       return r;
     });
@@ -21,7 +27,7 @@ describe('submitSignup', () => {
   });
 
   it('잘못된 입력은 실패와 메시지를 반환한다', async () => {
-    const result = await submitSignup({ email: 'bad', level: 'beginner', agreed: true });
+    const result = await submitSignup({ name: '물개', phone: '010-1234-5678', email: 'bad', level: 'beginner', agreed: true });
     expect(result.ok).toBe(false);
   });
 });

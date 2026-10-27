@@ -1,4 +1,4 @@
-import type { DayStatus, DistanceLog, LearningLog, Level, Stroke } from '@/lib/types';
+import type { DayStatus, DistanceLog, LearningLog, Level, ReferralSource, Stroke } from '@/lib/types';
 
 /** 페이지의 모든 문구와 예시 데이터. 컴포넌트에는 문구를 하드코딩하지 않는다. */
 
@@ -248,23 +248,54 @@ export const faq = {
 export const signup = {
   eyebrow: '사전 등록',
   title: '오늘부터 한 줄씩, 함께 시작해요',
-  description: '이메일을 남겨 주시면 챌린지 시작 전 참여 방법과 일정을 가장 먼저 알려드려요.',
+  description: '사전 신청하신 분께 챌린지 일정과 참여 방법을 가장 먼저 알려드려요. 신청만으로는 비용이 청구되지 않아요.',
+  requiredNotice: '* 표시는 필수 질문이에요',
+  requiredMark: '필수',
+  answerPlaceholder: '내 답변',
+  nameLabel: '이름 또는 닉네임',
+  phoneLabel: '연락받을 휴대폰 번호',
+  phonePlaceholder: '010-1234-5678',
   emailLabel: '이메일',
   emailPlaceholder: 'you@example.com',
-  levelLabel: '난이도',
-  agreeLabel: '[필수] 사전 등록 안내를 위한 이메일 수집·이용에 동의합니다.',
-  agreeDetail: '수집 항목: 이메일, 난이도 · 이용 목적: 챌린지 안내 · 보유 기간: 챌린지 종료 시까지',
-  requiredMark: '필수',
-  submit: '챌린지 사전 등록하기',
+  levelLabel: '지금 수영은 어느 정도 하고 계세요?',
+  levelHint: '위에서 고른 난이도가 기본으로 선택돼요.',
+  levelOptions: {
+    beginner: '초급 · 물에 뜨는 연습 중이거나 오랜만에 다시 시작해요',
+    intermediate: '중급 · 네 가지 영법을 배웠고 거리를 늘리는 중이에요',
+    advanced: '상급 · 인터벌 훈련을 하며 기록을 다듬고 있어요',
+  } satisfies Record<Level, string>,
+  goalLabel: '이번 30일 동안 가장 바꾸고 싶은 건 뭐예요?',
+  goalPlaceholder: '예: 자유형 호흡이 편해졌으면 좋겠어요',
+  referralLabel: '어디서 보고 오셨어요?',
+  referralOptions: {
+    'youtube-shorts': '유튜브 쇼츠',
+    youtube: '유튜브 영상',
+    threads: '스레드',
+    instagram: '인스타그램',
+    friend: '지인 소개',
+    other: '기타',
+  } satisfies Record<ReferralSource, string>,
+  agreeTitle: '개인정보 수집·이용 동의',
+  agreeLabel: '동의합니다.',
+  agreeDetail:
+    '수집 항목: 이름(닉네임), 휴대폰 번호, 이메일, 수영 수준, 목표, 유입 경로 · 이용 목적: 챌린지 일정 안내 · 보유 기간: 챌린지 종료 시까지',
+  clearLabel: '양식 지우기',
+  submit: '사전 신청 제출하기',
   submitting: '등록하는 중…',
   success: '사전 등록이 완료되었어요! 챌린지 시작 전 이메일로 알려드릴게요.',
-  resetLabel: '다른 이메일로 등록하기',
+  resetLabel: '다른 정보로 다시 신청하기',
   genericError: '등록 중 문제가 생겼어요. 잠시 후 다시 시도해 주세요.',
   errors: {
+    nameRequired: '이름 또는 닉네임을 입력해 주세요.',
+    nameTooLong: '이름 또는 닉네임은 20자 이내로 입력해 주세요.',
+    phoneRequired: '휴대폰 번호를 입력해 주세요.',
+    phoneInvalid: '올바른 휴대폰 번호가 아니에요. 예: 010-1234-5678',
     emailRequired: '이메일을 입력해 주세요.',
     emailInvalid: '올바른 이메일 형식이 아니에요. 예: you@example.com',
     agreeRequired: '개인정보 수집·이용에 동의해 주세요.',
+    goalTooLong: '200자 이내로 입력해 주세요.',
   },
+  limits: { name: 20, goal: 200 },
 } as const;
 
 export const demo = {

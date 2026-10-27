@@ -1,5 +1,5 @@
 import type { SignupData, SignupResult } from '@/lib/types';
-import { validateSignup } from '@/lib/validation';
+import { signupFieldOrder, validateSignup } from '@/lib/validation';
 
 export const MOCK_DELAY_MS = 1000;
 
@@ -9,7 +9,7 @@ export const MOCK_DELAY_MS = 1000;
  */
 export async function submitSignup(data: SignupData): Promise<SignupResult> {
   const errors = validateSignup(data);
-  const firstError = errors.email ?? errors.agreed;
+  const firstError = signupFieldOrder.map((field) => errors[field]).find(Boolean);
   if (firstError) return { ok: false, message: firstError };
 
   await new Promise((resolve) => setTimeout(resolve, MOCK_DELAY_MS));
