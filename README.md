@@ -1,6 +1,6 @@
-# 30일 수영 기록 챌린지 랜딩 페이지
+# 한 달 수영 기록 챌린지 랜딩 페이지
 
-30일 동안 매일 수영 거리나 배운 점을 기록하는 챌린지의 사전 등록 페이지입니다.
+4주 동안 평일(월~금) 중 주 3~5회, 수영 거리나 배운 점을 기록하는 챌린지의 사전 등록 페이지입니다.
 
 - Next.js (App Router) · TypeScript strict · Tailwind CSS v4 · Vitest
 
@@ -26,11 +26,11 @@ src/
     validation.ts      이메일·신청 폼 검증
     signup.ts          submitSignup — 1초 뒤 성공하는 mock
     date.ts            기록 날짜 표시
+    board.ts           주간 진행판: 주차 날짜, 주간 집계, 기록 많은 순 정렬
   components/
     sections/          Hero, HowItWorks, LogExamples, Benefits, LevelSelect,
-                       ProgressPreview, Testimonials, Faq, SignupCta, Footer
-                       (+ SiteHeader, LogDemo)
-    ui/                LogCard, Button, Badge, WaveBackground, Icon, SectionHeading
+                       WeeklyBoard, Testimonials, Faq, SignupCta, Footer (+ SiteHeader)
+    ui/                LogCard, Button, Badge, WaveBackground, EntryDialog, Icon, SectionHeading
     LevelContext.tsx   난이도 선택 ↔ 신청 폼 공유 상태
     Reveal.tsx         스크롤 등장 효과
   tests/               Vitest 단위 테스트

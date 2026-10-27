@@ -1,0 +1,83 @@
+import type { DistanceLog, LearningLog, Stroke, SwimLog } from '@/lib/types';
+
+export const WEEKDAY_COUNT = 5;
+
+/** 'YYYY-MM-DD'에 n일을 더한다 (UTC 기준이라 시간대 영향 없음) */
+export function addDays(date: string, days: number): string {
+  const [y = 0, m = 1, d = 1] = date.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d + days)).toISOString().slice(0, 10);
+}
+
+/** n주차(0부터)의 월~금 날짜 5개 */
+export function getWeekDates(startDate: string, weekIndex: number): string[] {
+  return Array.from({ length: WEEKDAY_COUNT }, (_, i) => addDays(startDate, weekIndex * 7 + i));
+}
+
+/** '2026-11-02' → '11/2' */
+export function formatShortDate(date: string): string {
+  const [, m, d] = date.split('-').map(Number);
+  return `${m}/${d}`;
+}
+
+export type DayLogs = { distance?: DistanceLog; learning?: LearningLog };
+
+export function getDayLogs(logs: readonly SwimLog[], date: string): DayLogs {
+  const day: DayLogs = {};
+  for (const log of logs) {
+    if (log.date !== date) continue;
+    if (log.type === 'distance') day.distance = log;
+    else day.learning = log;
+  }
+  return day;
+}
+
+/** 한 주의 기록 수(거리·배운 점 각각 1개)와 인증한 날 수 */
+export function summarizeWeek(logs: readonly SwimLog[], dates: readonly string[]): { logs: number; days: number } {
+  const inWeek = logs.filter((log) => dates.includes(log.date));
+  return { logs: inWeek.length, days: new Set(inWeek.map((log) => log.date)).size };
+}
+
+/** 그 주에 기록이 많은 순 → 인증한 날이 많은 순으로 정렬. 같으면 원래 순서 유지 */
+export function rankByWeek<T extends { logs: readonly SwimLog[] }>(rows: readonly T[], dates: readonly string[]): T[] {
+  return rows
+    .map((row, index) => ({ row, index, summary: summarizeWeek(row.logs, dates) }))
+    .sort((a, b) => b.summary.logs - a.summary.logs || b.summary.days - a.summary.days || a.index - b.index)
+    .map(({ row }) => row);
+}
+
+/** 해당 날짜의 기록을 새 기록으로 바꾼다 (빈 값이면 그날 기록 삭제) */
+export function replaceDayLogs(logs: readonly SwimLog[], date: string, next: DayLogs): SwimLog[] {
+  const kept = logs.filter((log) => log.date !== date);
+  return [...kept, ...[next.distance, next.learning].filter((log): log is SwimLog => Boolean(log))];
+}
+
+type SamplePools = {
+  distances: ReadonlyArray<readonly [number, number]>;
+  notes: ReadonlyArray<{ stroke: Stroke; note: string }>;
+};
+
+/** 'DLB-L' 같은 주차별 패턴을 실제 기록 목록으로 바꾼다. 예시 문구는 순서대로 돌려 쓴다 */
+export function buildSampleLogs(
+  weeks: readonly string[],
+  startDate: string,
+  pools: SamplePools,
+  seed = 0,
+): SwimLog[] {
+  const logs: SwimLog[] = [];
+  let cursor = seed;
+  weeks.forEach((pattern, weekIndex) => {
+    getWeekDates(startDate, weekIndex).forEach((date, dayIndex) => {
+      const code = pattern[dayIndex];
+      cursor += 1;
+      if (code === 'D' || code === 'B') {
+        const [laneLength, laps] = pools.distances[cursor % pools.distances.length] ?? [25, 4];
+        logs.push({ type: 'distance', date, laneLength, laps });
+      }
+      if (code === 'L' || code === 'B') {
+        const sample = pools.notes[cursor % pools.notes.length];
+        if (sample) logs.push({ type: 'learning', date, stroke: sample.stroke, note: sample.note });
+      }
+    });
+  });
+  return logs;
+}

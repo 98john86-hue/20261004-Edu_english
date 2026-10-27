@@ -1,21 +1,22 @@
-import type { DayStatus, DistanceLog, LearningLog, Level, ReferralSource, Stroke, SwimFrequency } from '@/lib/types';
+import type { DistanceLog, LearningLog, Level, ReferralSource, Stroke, SwimFrequency } from '@/lib/types';
 
 /** 페이지의 모든 문구와 예시 데이터. 컴포넌트에는 문구를 하드코딩하지 않는다. */
 
 export const site = {
-  name: '30일 수영 기록 챌린지',
-  title: '30일 수영 기록 챌린지 | 매일 한 줄씩 쌓이는 나의 수영',
+  name: '한 달 수영 기록 챌린지',
+  title: '한 달 수영 기록 챌린지 | 평일마다 한 줄씩 쌓이는 나의 수영',
   description:
-    '30일 동안 매일 수영 거리나 배운 점을 기록하는 챌린지. 많이 못 헤엄친 날도 배운 점 한 줄이면 성공이에요. 지금 이메일로 사전 등록하세요.',
-  ogDescription: '거리 또는 배운 점, 하나만 기록하면 오늘도 성공. 30일 수영 기록 챌린지 사전 등록 중.',
+    '한 달(4주) 동안 평일 주 3~5회, 수영 거리나 배운 점을 기록하는 챌린지. 많이 못 헤엄친 날도 배운 점 한 줄이면 성공이에요. 지금 사전 등록하세요.',
+  ogDescription: '거리 또는 배운 점, 하나만 기록하면 오늘도 성공. 평일 주 3~5회 한 달 수영 기록 챌린지 사전 등록 중.',
   locale: 'ko_KR',
 } as const;
 
 export const header = {
-  homeLabel: '30일 수영 기록 챌린지 홈',
+  homeLabel: '한 달 수영 기록 챌린지 홈',
   nav: [
     { href: '#how', label: '참여 방법' },
     { href: '#examples', label: '기록 예시' },
+    { href: '#board', label: '진행판' },
     { href: '#levels', label: '난이도' },
     { href: '#faq', label: 'FAQ' },
   ],
@@ -24,13 +25,13 @@ export const header = {
 } as const;
 
 export const hero = {
-  eyebrow: '30일 수영 기록 챌린지 · 사전 등록 중',
-  headlineLines: ['30일, 매일 한 줄씩', '쌓이는 나의 수영'],
+  eyebrow: '한 달 수영 기록 챌린지 · 사전 등록 중',
+  headlineLines: ['한 달, 평일마다 한 줄씩', '쌓이는 나의 수영'],
   subcopy: '거리 또는 배운 점, 하나만 기록하면 오늘도 성공.',
-  body: '많이 못 헤엄친 날도 배운 점 한 줄이면 충분해요. 거리보다 꾸준함과 성장을 목표로 함께 30일을 채워 봐요.',
+  body: '4주 동안 월~금 중 주 3~5회만 기록하면 돼요. 많이 못 헤엄친 날도 배운 점 한 줄이면 충분해요. 주말은 푹 쉬어요.',
   primaryCta: '챌린지 사전 등록하기',
   secondaryCta: '기록 예시 보기',
-  chips: ['초급 · 중급 · 상급', '하루 1분 기록', '무료 사전 등록'],
+  chips: ['4주 · 평일 주 3~5회', '하루 1분 기록', '무료 사전 등록'],
 } as const;
 
 export const howItWorks = {
@@ -44,13 +45,13 @@ export const howItWorks = {
     },
     {
       icon: 'note',
-      title: '매일 수영 후 기록',
-      description: '헤엄친 거리 또는 오늘 배운 점, 둘 중 하나만 남기면 그날은 성공이에요.',
+      title: '평일 수영 후 기록',
+      description: '월~금 중 주 3~5회, 헤엄친 거리 또는 오늘 배운 점 중 하나만 남기면 그날은 인증 완료예요.',
     },
     {
       icon: 'flag',
-      title: '30일 완주',
-      description: '한 줄씩 쌓인 30일의 기록이 나만의 수영 노트가 됩니다.',
+      title: '4주 완주',
+      description: '매주 3회 이상 인증하며 4주를 채우면 한 달의 기록이 나만의 수영 노트가 됩니다.',
     },
   ],
 } as const;
@@ -87,19 +88,19 @@ export const logExamples = {
   eyebrow: '기록 예시',
   title: '이렇게 기록해요',
   description: '수영을 마치고 1분이면 충분해요. 둘 중 하나만 남겨도 그날은 성공입니다.',
-  bothNote: '거리와 배운 점을 같은 날 함께 남길 수도 있어요. 둘 다 기록한 날은 달력에 따로 표시돼요.',
+  bothNote: '거리와 배운 점을 같은 날 함께 남길 수도 있어요. 둘 다 기록한 날은 진행판 칸에 함께 표시돼요.',
   orLabel: '또는',
   lapNote: '1바퀴는 왕복 기준이에요. 25m 레인이면 1바퀴 = 50m, 총 거리는 자동으로 계산돼요.',
 } as const;
 
 export const benefits = {
   eyebrow: '참여 효과',
-  title: '30일 뒤, 이런 변화가 생겨요',
+  title: '한 달 뒤, 이런 변화가 생겨요',
   items: [
     {
       icon: 'calendar',
       title: '습관 형성',
-      description: '매일 기록하는 작은 행동이 수영장 가는 발걸음을 꾸준하게 만들어요.',
+      description: '평일마다 기록하는 작은 행동이 수영장 가는 발걸음을 꾸준하게 만들어요.',
     },
     {
       icon: 'chart',
@@ -109,12 +110,12 @@ export const benefits = {
     {
       icon: 'book',
       title: '나만의 수영 노트',
-      description: '30개의 배움이 모이면 다시 꺼내 볼 수 있는 나만의 교과서가 돼요.',
+      description: '한 달 동안 모인 배움이 다시 꺼내 볼 수 있는 나만의 교과서가 돼요.',
     },
     {
       icon: 'spark',
       title: '동기 유지',
-      description: '“한 줄만 쓰면 성공”이라는 낮은 기준 덕분에 지치지 않고 이어갈 수 있어요.',
+      description: '진행판에서 다른 참여자의 기록을 보며 서로 자극을 주고받을 수 있어요.',
     },
   ],
 } as const;
@@ -165,29 +166,88 @@ export const levels = {
   selectedLabel: '선택됨',
 } as const;
 
-// 예시 데이터: 22일차까지 기록, 이후는 남은 날
-const progressPattern: DayStatus[] = [
-  'distance', 'learning', 'both', 'distance', 'learning', 'distance', 'both',
-  'learning', 'distance', 'learning', 'both', 'distance', 'learning', 'learning',
-  'both', 'distance', 'learning', 'both', 'distance', 'learning', 'both', 'learning',
-  'upcoming', 'upcoming', 'upcoming', 'upcoming', 'upcoming', 'upcoming', 'upcoming', 'upcoming',
-];
+/** 챌린지 일정 (예시 일정: 시작일은 1주차 월요일) */
+export const challenge = {
+  startDate: '2026-11-02',
+  weeks: 4,
+  weeklyMin: 3,
+  weeklyMax: 5,
+} as const;
 
-export const progress = {
-  eyebrow: '30일 진행 미리보기',
-  title: '하루하루 채워지는 30칸',
-  description: '기록한 날은 색으로 채워지고, 무엇을 기록했는지 한눈에 보여요.',
+export type SampleParticipant = {
+  id: string;
+  name: string;
+  /** 주차별 월~금 기록 패턴. D=거리, L=배운 점, B=둘 다, -=없음 */
+  weeks: readonly string[];
+};
+
+export const board = {
+  eyebrow: '주간 진행판',
+  title: '이번 주, 다 같이 채워 가요',
+  description:
+    '월~금 칸을 눌러 바로 기록하고, 다른 참여자의 기록도 따로 들어가지 않고 한 화면에서 볼 수 있어요. 한 주에 기록이 많은 참여자가 위에 표시돼요.',
   sampleBadge: '예시 데이터',
-  gridLabel: '30일 기록 예시 달력',
-  dayLabel: (day: number) => `${day}일차`,
-  summary: (done: number, total: number) => `${total}일 중 ${done}일 기록 (예시)`,
-  days: progressPattern,
-  legend: {
-    distance: '거리 기록',
-    learning: '배움 기록',
-    both: '둘 다 기록',
-    upcoming: '남은 날',
-  } satisfies Record<DayStatus, string>,
+  sampleNotice: '다른 참여자의 이름과 기록은 모두 예시예요. 내 줄에 입력한 기록은 저장되지 않아요.',
+  weekTabsLabel: '주차 선택',
+  weekLabel: (n: number) => `${n}주차`,
+  tableCaption: (n: number) => `${n}주차 참여자별 기록 (월~금, 기록이 많은 순)`,
+  participantHeader: '참여자',
+  weekdayHeaders: ['월', '화', '수', '목', '금'],
+  meName: '나',
+  meTag: '체험',
+  rankLabel: (rank: number) => `${rank}위`,
+  weeklyCount: (count: number) => `주 ${count}회`,
+  goalMet: '이번 주 성공',
+  goalHint: '평일 중 주 3회 이상 인증하면 그 주는 성공이에요.',
+  addLabel: '기록하기',
+  cellLabel: (name: string, day: string, date: string) => `${name}, ${day}요일 ${date}`,
+  editHint: '눌러서 수정',
+  emptyCell: '기록 없음',
+  scrollHint: '표를 옆으로 밀어 월~금을 모두 볼 수 있어요.',
+  dialog: {
+    title: (date: string) => `${date} 기록`,
+    hint: '거리나 배운 점 중 하나만 입력해도 인증돼요.',
+    distanceLegend: '거리',
+    laneLabel: '레인 길이',
+    laneOptions: [25, 50] as const,
+    lapsLabel: '바퀴 수 (왕복)',
+    learningLegend: '오늘 배운 점',
+    strokeLabel: '영법',
+    noteLabel: '배운 점',
+    notePlaceholder: '예: 돌핀킥은 무릎보다 골반에서 시작한다',
+    save: '저장',
+    remove: '이 날 기록 지우기',
+    cancel: '닫기',
+    emptyError: '거리(바퀴 수)나 배운 점 중 하나는 입력해 주세요.',
+  },
+  samplePools: {
+    distances: [
+      [25, 8],
+      [25, 12],
+      [50, 10],
+      [25, 6],
+      [50, 16],
+      [25, 20],
+      [50, 8],
+    ] as const satisfies ReadonlyArray<readonly [number, number]>,
+    notes: [
+      { stroke: '자유형', note: '호흡할 때 고개를 너무 들지 않기' },
+      { stroke: '평영', note: '발차기는 팔을 뻗은 뒤에 차야 앞으로 나간다' },
+      { stroke: '배영', note: '귀가 물에 잠길 만큼 머리를 뒤로 눕힌다' },
+      { stroke: '자유형', note: '팔 입수는 어깨 너비로' },
+      { stroke: '접영', note: '웨이브는 가슴으로 누르는 느낌에서 시작' },
+      { stroke: '기타', note: '킥판 잡고 발차기만 해도 다리 힘이 많이 든다' },
+      { stroke: '자유형', note: '글라이드를 1초 더 길게 하니 덜 지친다' },
+      { stroke: '평영', note: '당기고-숨-차고-뻗기 순서를 지키기' },
+    ] as const satisfies ReadonlyArray<{ stroke: Stroke; note: string }>,
+  },
+  participants: [
+    { id: 'a', name: '참가자 A', weeks: ['DLB-L', 'BLD-B', 'D-L-D', 'LB---'] },
+    { id: 'b', name: '참가자 B', weeks: ['BBDBL', 'BDBLB', 'DBBDL', 'BB---'] },
+    { id: 'c', name: '참가자 C', weeks: ['L-L-D', '-L-D-', 'LD-L-', 'L----'] },
+    { id: 'd', name: '참가자 D', weeks: ['D-D-D', 'DDL-D', 'B-D-D', 'D-D--'] },
+    { id: 'e', name: '참가자 E', weeks: ['-L---', 'L-L-L', '-BL-B', '-L---'] },
+  ] as const satisfies ReadonlyArray<SampleParticipant>,
 } as const;
 
 export const testimonials = {
@@ -198,7 +258,7 @@ export const testimonials = {
   items: [
     {
       name: '참가자 A (예시)',
-      meta: '초급 · 30일 중 OO일 기록',
+      meta: '초급 · 4주 중 OO회 인증',
       quote: '거리가 적은 날에도 배운 점 한 줄을 쓰니 “오늘도 했다”는 기분이 들었어요.',
     },
     {
@@ -208,7 +268,7 @@ export const testimonials = {
     },
     {
       name: '참가자 C (예시)',
-      meta: '상급 · 30일 완주',
+      meta: '상급 · 4주 완주',
       quote: '인터벌 기록과 교정 포인트를 함께 남기니 훈련의 방향이 분명해졌어요.',
     },
   ],
@@ -221,17 +281,22 @@ export const faq = {
     {
       question: '하루를 놓치면 어떻게 되나요?',
       answer:
-        '괜찮아요. 챌린지는 중단되지 않고 다음 날부터 다시 이어가면 돼요. 놓친 날은 달력에 빈칸으로 남고, 완주 기준 등 세부 규칙은 시작 전 안내 메일로 알려드릴 예정이에요. (플레이스홀더 답변)',
+        '괜찮아요. 매일이 아니라 평일(월~금) 중 주 3~5회만 인증하면 그 주는 성공이에요. 하루 놓쳐도 같은 주의 다른 평일에 채우면 돼요.',
     },
     {
-      question: '수영장에 못 가는 날은요?',
+      question: '주말이나 수영장에 못 가는 날은요?',
       answer:
-        '수영장 휴무나 일정이 있는 날을 위한 운영 방식(예: 휴식일 지정)을 준비 중이에요. 확정되면 사전 등록하신 분들께 먼저 안내드릴게요. (플레이스홀더 답변)',
+        '주말은 인증하지 않고 쉬어요. 평일에도 못 가는 날은 쉬고, 갈 수 있는 날에 주 3회 이상만 채우면 돼요. 수영장 휴무 주간 등 세부 운영 방식은 시작 전 안내드릴게요. (플레이스홀더 답변)',
     },
     {
       question: '초급인데 배운 게 없으면요?',
       answer:
         '그런 날은 헤엄친 거리만 기록해도 성공이에요. 그래도 “오늘 물에 뜨는 느낌이 조금 달랐다”처럼 작은 감각도 훌륭한 배움 기록이 될 수 있어요.',
+    },
+    {
+      question: '다른 참여자가 제 기록을 볼 수 있나요?',
+      answer:
+        '네. 서로 자극을 주고받을 수 있도록 주간 진행판에 닉네임과 기록이 함께 보여요. 공개 범위 등 세부 정책은 시작 전 안내드릴게요. (플레이스홀더 답변)',
     },
     {
       question: '비용이 드나요?',
@@ -271,7 +336,7 @@ export const signup = {
     intermediate: '중급',
     advanced: '상급',
   } satisfies Record<Level, string>,
-  goalLabel: '이번 30일 동안 가장 바꾸고 싶은 건 뭐예요?',
+  goalLabel: '이번 한 달 동안 가장 바꾸고 싶은 건 뭐예요?',
   goalPlaceholder: '예: 자유형 호흡이 편해졌으면 좋겠어요',
   referralLabel: '어디서 보고 오셨어요?',
   referralOptions: {
@@ -305,22 +370,6 @@ export const signup = {
   limits: { name: 20, goal: 200 },
 } as const;
 
-export const demo = {
-  eyebrow: '기록 체험해보기',
-  title: '직접 한 줄 남겨 보세요',
-  description: '입력하는 대로 기록 카드가 바로 바뀌어요. 저장되지 않으니 마음껏 써 보세요.',
-  modeLabel: '기록 종류',
-  modes: { distance: '거리 기록', learning: '배움 기록' },
-  laneLabel: '레인 길이',
-  laneOptions: [25, 50] as const,
-  lapsLabel: '바퀴 수',
-  strokeLabel: '영법',
-  noteLabel: '오늘 배운 점',
-  notePlaceholder: '예: 돌핀킥은 무릎보다 골반에서 시작한다',
-  previewLabel: '미리보기',
-  defaultDate: '2026-11-13',
-} as const;
-
 export const strokeOptions: readonly Stroke[] = ['자유형', '배영', '평영', '접영', '기타'];
 
 export const footer = {
@@ -328,7 +377,7 @@ export const footer = {
   contactEmail: 'hello@example.com',
   contactNote: '(플레이스홀더)',
   safety: '수영 전 건강 상태를 확인하고, 안전요원이 있는 곳에서 무리하지 않고 수영해 주세요.',
-  copyright: (year: number) => `© ${year} 30일 수영 기록 챌린지. All rights reserved.`,
+  copyright: (year: number) => `© ${year} 한 달 수영 기록 챌린지. All rights reserved.`,
 } as const;
 
 export const weekdays = ['일', '월', '화', '수', '목', '금', '토'] as const;

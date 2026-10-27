@@ -34,6 +34,3 @@ export type SignupData = {
   agreed: boolean; // 개인정보 수집·이용 동의 (필수)
 };
 export type SignupResult = { ok: true } | { ok: false; message: string };
-
-/** 30일 미리보기 그리드의 하루 상태 */
-export type DayStatus = 'distance' | 'learning' | 'both' | 'upcoming';
