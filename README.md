@@ -1,8 +1,36 @@
-# 워터로그 챌린지 랜딩 페이지
+# 30일 수영 기록 챌린지 랜딩 페이지
 
-30일 동안 매일 수영 후 배운 점을 기록하는 "워터로그 챌린지" 사전 등록 페이지입니다.
-빌드 도구 없이 정적 파일(`index.html`, `styles.css`, `script.js`)로 동작합니다.
+30일 동안 매일 수영 거리나 배운 점을 기록하는 챌린지의 사전 등록 페이지입니다.
 
-- 로컬 확인: `index.html`을 브라우저로 열거나 `python3 -m http.server`
-- 이메일 수집: `script.js`의 `SIGNUP_ENDPOINT`에 Formspree / Google Apps Script 등 POST URL을 넣으세요.
-  비어 있으면 브라우저 localStorage에만 저장됩니다(데모용).
+- Next.js (App Router) · TypeScript strict · Tailwind CSS v4 · Vitest
+
+## 실행
+
+```bash
+npm install
+npm run dev        # http://localhost:3000
+npm run build      # 프로덕션 빌드
+npm run typecheck  # 타입 체크
+npm test           # 단위 테스트
+```
+
+## 구조
+
+```
+src/
+  app/                 layout(metadata), page, globals.css
+  content/landing.ts   페이지의 모든 문구와 예시 데이터
+  types/               Level, SwimLog, SignupData 등 타입
+  lib/
+    distance.ts        총 거리 계산 (레인 길이 × 2 × 바퀴 수, 1바퀴 = 왕복)
+    validation.ts      이메일·신청 폼 검증
+    signup.ts          submitSignup — 1초 뒤 성공하는 mock
+  components/
+    sections/          섹션별 컴포넌트
+    ui/                아이콘, 기록 카드 등 공용 UI
+```
+
+## 실제 API로 교체
+
+`src/lib/signup.ts`의 `submitSignup` 내부만 `fetch` 호출로 바꾸면 됩니다. 시그니처
+`(data: SignupData) => Promise<SignupResult>`는 유지하세요.

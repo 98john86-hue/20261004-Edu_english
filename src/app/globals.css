@@ -1,0 +1,56 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', system-ui, -apple-system, sans-serif;
+  --color-accent: #c2410c;
+  --color-accent-strong: #9a3412;
+  --animate-wave: wave 12s linear infinite;
+  --animate-wave-slow: wave 20s linear infinite;
+
+  @keyframes wave {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white text-slate-800 antialiased;
+    word-break: keep-all;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+/* 스크롤 등장 효과: JS가 숨김 클래스를 붙인 요소만 대상 */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.reveal-shown {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal-hidden {
+    opacity: 1;
+    transform: none;
+  }
+}
