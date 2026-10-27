@@ -1,4 +1,4 @@
-import type { DistanceLog } from '@/types';
+import type { DistanceLog } from '@/lib/types';
 
 /** 총 거리(m)는 저장하지 않고 계산한다. 1바퀴 = 왕복(레인 2번)이므로 레인 길이 × 2 × 바퀴 수. */
 export function getTotalDistance({ laneLength, laps }: Pick<DistanceLog, 'laneLength' | 'laps'>): number {

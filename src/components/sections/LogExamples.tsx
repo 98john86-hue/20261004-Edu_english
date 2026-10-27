@@ -1,5 +1,5 @@
 import { distanceExample, learningExample, logExamples } from '@/content/landing';
-import { DistanceLogCard, LearningLogCard } from '@/components/ui/LogCards';
+import { DistanceLogCard, LearningLogCard } from '@/components/ui/LogCard';
 import { Icon } from '@/components/ui/Icon';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Reveal } from '@/components/Reveal';

@@ -20,14 +20,20 @@ npm test           # 단위 테스트
 src/
   app/                 layout(metadata), page, globals.css
   content/landing.ts   페이지의 모든 문구와 예시 데이터
-  types/               Level, SwimLog, SignupData 등 타입
   lib/
+    types.ts           Level, SwimLog, SignupData 등 타입
     distance.ts        총 거리 계산 (레인 길이 × 2 × 바퀴 수, 1바퀴 = 왕복)
     validation.ts      이메일·신청 폼 검증
     signup.ts          submitSignup — 1초 뒤 성공하는 mock
+    date.ts            기록 날짜 표시
   components/
-    sections/          섹션별 컴포넌트
-    ui/                아이콘, 기록 카드 등 공용 UI
+    sections/          Hero, HowItWorks, LogExamples, Benefits, LevelSelect,
+                       ProgressPreview, Testimonials, Faq, SignupCta, Footer
+                       (+ SiteHeader, LogDemo)
+    ui/                LogCard, Button, Badge, WaveBackground, Icon, SectionHeading
+    LevelContext.tsx   난이도 선택 ↔ 신청 폼 공유 상태
+    Reveal.tsx         스크롤 등장 효과
+  tests/               Vitest 단위 테스트
 ```
 
 ## 실제 API로 교체

@@ -2,8 +2,8 @@
 
 import { useId, useState } from 'react';
 import { demo, strokeOptions } from '@/content/landing';
-import type { DistanceLog, LearningLog, Stroke } from '@/types';
-import { DistanceLogCard, LearningLogCard } from '@/components/ui/LogCards';
+import type { DistanceLog, LearningLog, Stroke } from '@/lib/types';
+import { DistanceLogCard, LearningLogCard } from '@/components/ui/LogCard';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
 type Mode = 'distance' | 'learning';

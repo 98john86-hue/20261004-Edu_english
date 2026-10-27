@@ -1,7 +1,7 @@
 import { progress } from '@/content/landing';
-import type { DayStatus } from '@/types';
+import type { DayStatus } from '@/lib/types';
 import { Icon } from '@/components/ui/Icon';
-import { SampleBadge } from '@/components/ui/SampleBadge';
+import { Badge } from '@/components/ui/Badge';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Reveal } from '@/components/Reveal';
 
@@ -39,7 +39,7 @@ export function ProgressPreview() {
           eyebrow={progress.eyebrow}
           title={progress.title}
           description={progress.description}
-          badge={<SampleBadge label={progress.sampleBadge} />}
+          badge={<Badge tone="sample">{progress.sampleBadge}</Badge>}
         />
         <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-lg shadow-sky-900/5 sm:p-8">
           <p className="mb-4 text-center font-bold text-slate-800">{progress.summary(done, progress.days.length)}</p>

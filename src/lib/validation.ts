@@ -1,5 +1,5 @@
 import { signup } from '@/content/landing';
-import type { SignupData } from '@/types';
+import type { SignupData } from '@/lib/types';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+(\.[^\s@.]+)+$/;
 

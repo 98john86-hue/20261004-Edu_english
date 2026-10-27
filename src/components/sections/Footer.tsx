@@ -1,6 +1,6 @@
 import { footer, site } from '@/content/landing';
 
-export function SiteFooter() {
+export function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer className="bg-slate-900 py-10 text-slate-300">

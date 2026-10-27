@@ -1,5 +1,5 @@
 import { testimonials } from '@/content/landing';
-import { SampleBadge } from '@/components/ui/SampleBadge';
+import { Badge } from '@/components/ui/Badge';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 import { Reveal } from '@/components/Reveal';
 
@@ -17,7 +17,7 @@ export function Testimonials() {
           {testimonials.items.map((item) => (
             <li key={item.name}>
               <figure className="flex h-full flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                <SampleBadge label={testimonials.badge} />
+                <Badge tone="sample">{testimonials.badge}</Badge>
                 <blockquote className="mt-4 flex-1 text-lg leading-relaxed text-slate-800">“{item.quote}”</blockquote>
                 <figcaption className="mt-5 flex items-center gap-3">
                   <span className="grid size-10 place-items-center rounded-full bg-slate-200 text-slate-600" aria-hidden="true">

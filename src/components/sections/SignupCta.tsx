@@ -4,8 +4,9 @@ import { useRef, useState, type FormEvent } from 'react';
 import { levelContent, levelOrder, signup } from '@/content/landing';
 import { submitSignup } from '@/lib/signup';
 import { validateSignup, type SignupErrors } from '@/lib/validation';
-import type { Level } from '@/types';
+import type { Level } from '@/lib/types';
 import { useLevel } from '@/components/LevelContext';
+import { buttonStyles } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
@@ -13,7 +14,7 @@ type Status = 'idle' | 'loading' | 'success' | 'error';
 
 const isLevel = (value: string): value is Level => (levelOrder as readonly string[]).includes(value);
 
-export function SignupSection() {
+export function SignupCta() {
   const { level, setLevel } = useLevel();
   const [email, setEmail] = useState('');
   const [agreed, setAgreed] = useState(false);
@@ -182,7 +183,7 @@ export function SignupSection() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-4 text-lg font-bold text-white transition hover:bg-accent-strong disabled:cursor-wait disabled:opacity-80"
+                className={`${buttonStyles()} w-full`}
               >
                 {loading ? (
                   <span

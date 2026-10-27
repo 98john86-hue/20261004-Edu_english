@@ -1,4 +1,5 @@
 import { header, site } from '@/content/landing';
+import { ButtonLink } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 
 export function SiteHeader() {
@@ -21,12 +22,9 @@ export function SiteHeader() {
               </li>
             ))}
           </ul>
-          <a
-            href="#signup"
-            className="rounded-full bg-accent px-4 py-2 text-sm font-bold whitespace-nowrap text-white hover:bg-accent-strong"
-          >
+          <ButtonLink href="#signup" size="sm">
             {header.cta}
-          </a>
+          </ButtonLink>
         </nav>
       </div>
     </header>

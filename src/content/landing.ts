@@ -1,4 +1,4 @@
-import type { DayStatus, DistanceLog, LearningLog, Level, Stroke } from '@/types';
+import type { DayStatus, DistanceLog, LearningLog, Level, Stroke } from '@/lib/types';
 
 /** 페이지의 모든 문구와 예시 데이터. 컴포넌트에는 문구를 하드코딩하지 않는다. */
 

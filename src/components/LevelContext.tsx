@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useMemo, useState, type ReactNode } from 'react';
-import type { Level } from '@/types';
+import type { Level } from '@/lib/types';
 
 type LevelContextValue = { level: Level; setLevel: (level: Level) => void };
 

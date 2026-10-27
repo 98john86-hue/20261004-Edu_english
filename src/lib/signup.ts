@@ -1,4 +1,4 @@
-import type { SignupData, SignupResult } from '@/types';
+import type { SignupData, SignupResult } from '@/lib/types';
 import { validateSignup } from '@/lib/validation';
 
 export const MOCK_DELAY_MS = 1000;

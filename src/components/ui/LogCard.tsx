@@ -2,7 +2,8 @@ import type { ReactNode } from 'react';
 import { logCard } from '@/content/landing';
 import { formatLogDate } from '@/lib/date';
 import { formatMeters, getTotalDistance } from '@/lib/distance';
-import type { DistanceLog, LearningLog } from '@/types';
+import type { DistanceLog, LearningLog } from '@/lib/types';
+import { Badge } from '@/components/ui/Badge';
 import { Icon } from '@/components/ui/Icon';
 
 function CardShell({ title, date, icon, tone, children }: {
@@ -27,10 +28,10 @@ function CardShell({ title, date, icon, tone, children }: {
             </p>
           </div>
         </div>
-        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-800">
+        <Badge tone="success">
           <Icon name="check" className="size-3.5" />
           {logCard.successBadge}
-        </span>
+        </Badge>
       </header>
       {children}
     </article>
@@ -76,9 +77,7 @@ export function LearningLogCard({ log }: { log: LearningLog }) {
       {log.stroke ? (
         <p className="mb-3">
           <span className="sr-only">{logCard.strokeLabel}: </span>
-          <span className="inline-block rounded-full bg-teal-700 px-3 py-1 text-xs font-bold text-white">
-            #{log.stroke}
-          </span>
+          <Badge tone="tag">#{log.stroke}</Badge>
         </p>
       ) : null}
       <div className="rounded-2xl border-l-4 border-teal-500 bg-teal-50 p-4">
