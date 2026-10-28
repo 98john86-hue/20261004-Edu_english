@@ -13,6 +13,7 @@ const sampleRows: BoardRow[] = board.participants.map((p, i) => ({
   id: p.id,
   name: p.name,
   isMe: false,
+  goal: p.goal,
   logs: buildSampleLogs(p.weeks, challenge.startDate, board.samplePools, i * 3),
 }));
 
@@ -20,11 +21,12 @@ const sampleRows: BoardRow[] = board.participants.map((p, i) => ({
 export function WeeklyBoard() {
   const [myLogs, setMyLogs] = useState<SwimLog[]>([]);
   const [myName, setMyName] = useState('');
+  const [myGoal, setMyGoal] = useState<number>(challenge.weeklyMin);
   const [weekIndex, setWeekIndex] = useState(0);
 
   const rows = useMemo(
-    () => [...sampleRows, { id: 'me', name: myName.trim() || board.meName, isMe: true, logs: myLogs }],
-    [myLogs, myName],
+    () => [...sampleRows, { id: 'me', name: myName.trim() || board.meName, isMe: true, goal: myGoal, logs: myLogs }],
+    [myLogs, myName, myGoal],
   );
 
   const saveDay = (date: string, next: DayLogs) => {
@@ -40,7 +42,14 @@ export function WeeklyBoard() {
     <section id="board" aria-labelledby="board-title" className="scroll-mt-16 bg-sky-50 px-4 py-14 sm:py-20">
       <div className="mx-auto max-w-xl">
         <SectionHeading id="board-title" eyebrow={board.eyebrow} title={board.title} description={board.description} />
-        <CheckInForm myLogs={myLogs} name={myName} onNameChange={setMyName} onSave={saveDay} />
+        <CheckInForm
+          myLogs={myLogs}
+          name={myName}
+          onNameChange={setMyName}
+          goal={myGoal}
+          onGoalChange={setMyGoal}
+          onSave={saveDay}
+        />
       </div>
       <div className="mx-auto mt-12 max-w-4xl">
         <BoardTable rows={rows} weekIndex={weekIndex} onWeekChange={setWeekIndex} />

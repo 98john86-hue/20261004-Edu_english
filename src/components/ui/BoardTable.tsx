@@ -7,7 +7,7 @@ import { formatMeters, getTotalDistance } from '@/lib/distance';
 import type { SwimLog } from '@/lib/types';
 import { Badge } from '@/components/ui/Badge';
 
-export type BoardRow = { id: string; name: string; isMe: boolean; logs: readonly SwimLog[] };
+export type BoardRow = { id: string; name: string; isMe: boolean; goal: number; logs: readonly SwimLog[] };
 
 type BoardTableProps = {
   rows: readonly BoardRow[];
@@ -140,8 +140,14 @@ export function BoardTable({ rows, weekIndex, onWeekChange }: BoardTableProps) {
                       ) : null}
                     </span>
                     <span className="mt-1 flex flex-wrap items-center gap-1">
-                      <span className="text-slate-600">{board.weeklyCount(summary.days)}</span>
-                      {summary.days >= challenge.weeklyMin ? <Badge tone="success">{board.goalMet}</Badge> : null}
+                      <span className="text-slate-600" aria-label={board.goalProgressLabel(summary.days, row.goal)}>
+                        {board.weeklyCount(summary.days, row.goal)}
+                      </span>
+                      {summary.days >= row.goal ? (
+                        <span role="img" aria-label={board.goalMetLabel} className="text-lg leading-none">
+                          {board.goalMedal}
+                        </span>
+                      ) : null}
                     </span>
                   </th>
                   {dates.map((date) => (

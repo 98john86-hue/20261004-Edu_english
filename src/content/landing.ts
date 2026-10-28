@@ -4,7 +4,7 @@ import type { Level, ReferralSource, Stroke, SwimFrequency } from '@/lib/types';
 
 export const site = {
   name: '한 달 수영 기록 챌린지',
-  title: '한 달 수영 기록 챌린지 | 평일마다 한 줄씩 쌓이는 나의 수영',
+  title: '한 달 수영 기록 챌린지 | 매일 한 줄씩 쌓이는 나의 수영',
   description:
     '한 달(4주) 동안 평일 주 3~5회, 수영 거리나 배운 점을 기록하는 챌린지. 많이 못 헤엄친 날도 배운 점 한 줄이면 성공이에요. 지금 사전 등록하세요.',
   ogDescription: '거리 또는 배운 점, 하나만 기록하면 오늘도 성공. 평일 주 3~5회 한 달 수영 기록 챌린지 사전 등록 중.',
@@ -24,9 +24,9 @@ export const header = {
 
 export const hero = {
   eyebrow: '사전 등록 중',
-  headlineLines: ['한 달, 평일마다 한 줄씩', '쌓이는 나의 수영'],
-  subcopy: '거리 또는 배운 점, 하나만 기록하면 오늘도 성공.',
-  body: '4주 동안 월~금 중 주 3~5회. 주말은 쉬어요.',
+  headlineLines: ['한 달, 매일 한 줄씩', '쌓이는 나의 수영'],
+  subcopy: '오늘 익힌 기술은 한 줄로 남기고, 내일 물속에서 다시 꺼내 써요.',
+  body: '거리 또는 기술, 하나만 기록해도 인증 완료. 4주 동안 평일 주 3~5회, 주말은 쉬어요.',
   primaryCta: '챌린지 사전 등록하기',
 } as const;
 
@@ -59,6 +59,8 @@ export const challenge = {
 export type SampleParticipant = {
   id: string;
   name: string;
+  /** 참여자가 정한 주간 목표 인증 횟수 (3~5) */
+  goal: number;
   /** 주차별 월~금 기록 패턴. D=거리, L=배운 점, B=둘 다, -=없음 */
   weeks: readonly string[];
 };
@@ -74,6 +76,9 @@ export const board = {
     nameLabel: '참여 아이디',
     nameHint: '진행판에 보일 이름이에요. 비워 두면 “나”로 보여요.',
     namePlaceholder: '예: 물개',
+    goalLabel: '나의 주간 목표',
+    goalHint: '한 주에 몇 번 인증할지 정해요. 채우면 진행판에 🏅가 붙어요.',
+    goalOption: (n: number) => `주 ${n}회`,
     distanceLabel: '오늘의 거리 기록',
     laneLabel: '레인 길이',
     laneOptions: [25, 50] as const,
@@ -101,9 +106,11 @@ export const board = {
   weekdayHeaders: ['월', '화', '수', '목', '금'],
   meName: '나',
   meTag: '나',
-  weeklyCount: (count: number) => `주 ${count}회`,
-  goalMet: '성공',
-  goalHint: '주 3회 이상 인증하면 그 주는 성공',
+  weeklyCount: (count: number, goal: number) => `${count}/${goal}회`,
+  goalMedal: '🏅',
+  goalMetLabel: '주간 목표 달성',
+  goalProgressLabel: (count: number, goal: number) => `주간 목표 ${goal}회 중 ${count}회 인증`,
+  goalHint: '각자 정한 주간 목표(주 3~5회)를 채우면 🏅',
   emptyCell: '기록 없음',
   zoomLabel: '글자 크기',
   zoomOptions: ['작게', '보통', '크게'] as const,
@@ -130,12 +137,23 @@ export const board = {
     ] as const satisfies ReadonlyArray<{ stroke: Stroke; note: string }>,
   },
   participants: [
-    { id: 'a', name: '참가자 A', weeks: ['DLB-L', 'BLD-B', 'D-L-D', 'LB---'] },
-    { id: 'b', name: '참가자 B', weeks: ['BBDBL', 'BDBLB', 'DBBDL', 'BB---'] },
-    { id: 'c', name: '참가자 C', weeks: ['L-L-D', '-L-D-', 'LD-L-', 'L----'] },
-    { id: 'd', name: '참가자 D', weeks: ['D-D-D', 'DDL-D', 'B-D-D', 'D-D--'] },
-    { id: 'e', name: '참가자 E', weeks: ['-L---', 'L-L-L', '-BL-B', '-L---'] },
+    { id: 'a', name: '참가자 A', goal: 4, weeks: ['DLB-L', 'BLD-B', 'D-L-D', 'LB---'] },
+    { id: 'b', name: '참가자 B', goal: 5, weeks: ['BBDBL', 'BDBLB', 'DBBDL', 'BB---'] },
+    { id: 'c', name: '참가자 C', goal: 3, weeks: ['L-L-D', '-L-D-', 'LD-L-', 'L----'] },
+    { id: 'd', name: '참가자 D', goal: 4, weeks: ['D-D-D', 'DDL-D', 'B-D-D', 'D-D--'] },
+    { id: 'e', name: '참가자 E', goal: 3, weeks: ['-L---', 'L-L-L', '-BL-B', '-L---'] },
   ] as const satisfies ReadonlyArray<SampleParticipant>,
+} as const;
+
+export const story = {
+  eyebrow: '오수완 이야기',
+  lines: [
+    '평생 일만 하고 돈만 버는, 수동적인 사람으로 살아왔어요.',
+    '그런데 수영을 하며 건강해지면서, 내가 좋아하는 게 무엇인지 알게 되었습니다.',
+    '거창한 목표는 필요 없어요. 매일의 수영 기록, 그 작은 성취가 쌓이면 자신감은 반드시 따라옵니다.',
+  ],
+  closing: '당신의 변화도, 오수완에서 시작돼요.',
+  gloss: '오수완: 오늘 수영 완료',
 } as const;
 
 export const faq = {

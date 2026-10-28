@@ -12,6 +12,8 @@ type CheckInFormProps = {
   myLogs: readonly SwimLog[];
   name: string;
   onNameChange: (name: string) => void;
+  goal: number;
+  onGoalChange: (goal: number) => void;
   onSave: (date: string, next: DayLogs) => void;
 };
 
@@ -26,10 +28,15 @@ const hintClass = 'mt-0.5 text-sm text-slate-600';
 const fieldClass =
   'mt-2 w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-base text-slate-900 placeholder:text-slate-500 focus:border-teal-600';
 
+const goalOptions = Array.from(
+  { length: challenge.weeklyMax - challenge.weeklyMin + 1 },
+  (_, i) => challenge.weeklyMin + i,
+);
+
 const isStroke = (value: string): value is Stroke => (strokeOptions as readonly string[]).includes(value);
 
 /** 첨부된 인증 화면처럼 날짜 → 아이디 → 거리 → 습득한 기술 순서의 한 장짜리 폼 */
-export function CheckInForm({ myLogs, name, onNameChange, onSave }: CheckInFormProps) {
+export function CheckInForm({ myLogs, name, onNameChange, goal, onGoalChange, onSave }: CheckInFormProps) {
   const [date, setDate] = useState(dateOptions[0]?.date ?? challenge.startDate);
   const [laneLength, setLaneLength] = useState<number>(copy.laneOptions[0]);
   const [laps, setLaps] = useState('');
@@ -112,6 +119,31 @@ export function CheckInForm({ myLogs, name, onNameChange, onSave }: CheckInFormP
           className={fieldClass}
         />
       </div>
+
+      <fieldset aria-describedby="checkin-goal-hint">
+        <legend className={labelClass}>{copy.goalLabel}</legend>
+        <p id="checkin-goal-hint" className={hintClass}>
+          {copy.goalHint}
+        </p>
+        <div className="mt-2 grid grid-cols-3 gap-2">
+          {goalOptions.map((n) => (
+            <label
+              key={n}
+              className="cursor-pointer rounded-xl border-2 border-slate-300 bg-white py-2.5 text-center font-bold text-slate-800 has-checked:border-teal-700 has-checked:bg-teal-700 has-checked:text-white has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent"
+            >
+              <input
+                type="radio"
+                name="checkin-goal"
+                value={n}
+                checked={goal === n}
+                onChange={() => onGoalChange(n)}
+                className="sr-only"
+              />
+              {copy.goalOption(n)}
+            </label>
+          ))}
+        </div>
+      </fieldset>
 
       <fieldset>
         <legend className={labelClass}>{copy.distanceLabel}</legend>
