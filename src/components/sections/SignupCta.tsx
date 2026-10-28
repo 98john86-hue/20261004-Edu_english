@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { useRef, useState, type ComponentPropsWithRef, type FormEvent, type ReactNode } from 'react';
 import { levelOrder, signup } from '@/content/landing';
 import { submitSignup } from '@/lib/signup';
 import type { Level, ReferralSource, SignupData, SwimFrequency } from '@/lib/types';
@@ -36,14 +36,17 @@ const referralKeys = Object.keys(signup.referralOptions) as ReferralSource[];
 const frequencyKeys = Object.keys(signup.frequencyOptions) as SwimFrequency[];
 
 const inputClass =
-  'mt-2 w-full border-0 border-b-2 bg-transparent px-0 py-2 text-base text-slate-900 placeholder:text-slate-500 focus:border-teal-600 focus:ring-0';
+  'mt-2 w-full rounded-xl border-2 bg-white px-4 py-3 text-base text-slate-900 placeholder:text-slate-500 focus:border-teal-600';
+const labelClass = 'block font-bold text-slate-900';
+const borderFor = (error?: string) => (error ? 'border-red-600' : 'border-slate-300');
 
-/** 구글 폼처럼 질문 하나를 카드 하나로 감싼다 */
-function QuestionCard({ error, children }: { error?: string; children: ReactNode }) {
+/** 라디오 보기를 버튼처럼 보이는 알약 모양으로 (한 줄에 여러 개 배치해 폼 길이를 줄인다) */
+function Pill({ children, ...input }: { children: ReactNode } & ComponentPropsWithRef<'input'>) {
   return (
-    <div className={`rounded-2xl border bg-white p-4 shadow-sm sm:p-6 ${error ? 'border-red-600' : 'border-slate-200'}`}>
+    <label className="cursor-pointer rounded-full border-2 border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 has-checked:border-teal-700 has-checked:bg-teal-700 has-checked:text-white has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent">
+      <input type="radio" className="sr-only" {...input} />
       {children}
-    </div>
+    </label>
   );
 }
 
@@ -58,7 +61,7 @@ function RequiredMark() {
 function FieldError({ id, message }: { id: string; message?: string }) {
   if (!message) return null;
   return (
-    <p id={id} className="mt-3 flex items-center gap-1.5 text-sm font-medium text-red-700">
+    <p id={id} className="mt-2 flex items-center gap-1.5 text-sm font-medium text-red-700">
       <span aria-hidden="true">!</span>
       {message}
     </p>
@@ -141,13 +144,15 @@ export function SignupCta() {
   const loading = status === 'loading';
 
   return (
-    <section
-      id="signup"
-      aria-labelledby="signup-title"
-      className="scroll-mt-16 bg-teal-800 px-4 py-14 sm:py-20"
-    >
-      <div className="mx-auto max-w-2xl">
-        <SectionHeading id="signup-title" eyebrow={signup.eyebrow} title={signup.title} tone="inverse" />
+    <section id="signup" aria-labelledby="signup-title" className="scroll-mt-16 bg-teal-800 px-4 py-14 sm:py-20">
+      <div className="mx-auto max-w-xl">
+        <SectionHeading
+          id="signup-title"
+          eyebrow={signup.eyebrow}
+          title={signup.title}
+          description={signup.description}
+          tone="inverse"
+        />
 
         {status === 'success' ? (
           <div ref={successRef} tabIndex={-1} role="status" className="rounded-3xl bg-white p-8 text-center shadow-2xl">
@@ -164,20 +169,17 @@ export function SignupCta() {
             </button>
           </div>
         ) : (
-          <form noValidate onSubmit={handleSubmit} aria-busy={loading} className="flex flex-col gap-3">
-            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-              <div className="h-2.5 bg-accent" aria-hidden="true" />
-              <div className="p-5 sm:p-6">
-                <p className="text-slate-700">{signup.description}</p>
-                <p className="mt-4 border-t border-slate-200 pt-4 text-sm font-medium text-red-700">
-                  {signup.requiredNotice}
-                </p>
-              </div>
-            </div>
+          <form
+            noValidate
+            onSubmit={handleSubmit}
+            aria-busy={loading}
+            className="rounded-3xl bg-white p-5 shadow-2xl sm:p-7"
+          >
+            <p className="text-sm font-medium text-red-700">{signup.requiredNotice}</p>
 
-            <fieldset disabled={loading} className="flex flex-col gap-3">
-              <QuestionCard error={errors.name}>
-                <label htmlFor="signup-name" className="block font-bold text-slate-900">
+            <fieldset disabled={loading} className="mt-5 flex flex-col gap-6">
+              <div>
+                <label htmlFor="signup-name" className={labelClass}>
                   {signup.nameLabel}
                   <RequiredMark />
                 </label>
@@ -196,13 +198,13 @@ export function SignupCta() {
                   onChange={(e) => update('name', e.target.value)}
                   aria-invalid={errors.name ? true : undefined}
                   aria-describedby={describedBy('name')}
-                  className={`${inputClass} max-w-sm ${errors.name ? 'border-red-600' : 'border-slate-300'}`}
+                  className={`${inputClass} ${borderFor(errors.name)}`}
                 />
                 <FieldError id={errorId('name')} message={errors.name} />
-              </QuestionCard>
+              </div>
 
-              <QuestionCard error={errors.phone}>
-                <label htmlFor="signup-phone" className="block font-bold text-slate-900">
+              <div>
+                <label htmlFor="signup-phone" className={labelClass}>
                   {signup.phoneLabel}
                   <RequiredMark />
                 </label>
@@ -221,13 +223,13 @@ export function SignupCta() {
                   onChange={(e) => update('phone', formatPhone(e.target.value))}
                   aria-invalid={errors.phone ? true : undefined}
                   aria-describedby={describedBy('phone')}
-                  className={`${inputClass} max-w-sm ${errors.phone ? 'border-red-600' : 'border-slate-300'}`}
+                  className={`${inputClass} ${borderFor(errors.phone)}`}
                 />
                 <FieldError id={errorId('phone')} message={errors.phone} />
-              </QuestionCard>
+              </div>
 
-              <QuestionCard error={errors.email}>
-                <label htmlFor="signup-email" className="block font-bold text-slate-900">
+              <div>
+                <label htmlFor="signup-email" className={labelClass}>
                   {signup.emailLabel}
                   <RequiredMark />
                 </label>
@@ -246,71 +248,63 @@ export function SignupCta() {
                   onChange={(e) => update('email', e.target.value)}
                   aria-invalid={errors.email ? true : undefined}
                   aria-describedby={describedBy('email')}
-                  className={`${inputClass} max-w-sm ${errors.email ? 'border-red-600' : 'border-slate-300'}`}
+                  className={`${inputClass} ${borderFor(errors.email)}`}
                 />
                 <FieldError id={errorId('email')} message={errors.email} />
-              </QuestionCard>
+              </div>
 
-              <QuestionCard error={errors.frequency}>
-                <fieldset aria-describedby={describedBy('frequency')}>
-                  <legend className="font-bold text-slate-900">
-                    {signup.frequencyLabel}
-                    <RequiredMark />
-                  </legend>
-                  <div className="mt-4 grid gap-1 sm:grid-cols-2">
-                    {frequencyKeys.map((key, i) => (
-                      <label key={key} className="flex cursor-pointer items-center gap-3 rounded-lg px-1 py-2 hover:bg-slate-50">
-                        <input
-                          ref={
-                            i === 0
-                              ? (el) => {
-                                  fieldRefs.current.frequency = el;
-                                }
-                              : undefined
-                          }
-                          type="radio"
-                          name="frequency"
-                          value={key}
-                          required
-                          checked={values.frequency === key}
-                          onChange={() => update('frequency', key)}
-                          aria-invalid={errors.frequency ? true : undefined}
-                          className="size-5 shrink-0 accent-teal-700"
-                        />
-                        <span className="text-slate-800">{signup.frequencyOptions[key]}</span>
-                      </label>
-                    ))}
-                  </div>
-                  <FieldError id={errorId('frequency')} message={errors.frequency} />
-                </fieldset>
-              </QuestionCard>
+              <fieldset aria-describedby={describedBy('frequency')}>
+                <legend className={labelClass}>
+                  {signup.frequencyLabel}
+                  <RequiredMark />
+                </legend>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {frequencyKeys.map((key, i) => (
+                    <Pill
+                      key={key}
+                      ref={
+                        i === 0
+                          ? (el: HTMLInputElement | null) => {
+                              fieldRefs.current.frequency = el;
+                            }
+                          : undefined
+                      }
+                      name="frequency"
+                      value={key}
+                      required
+                      checked={values.frequency === key}
+                      onChange={() => update('frequency', key)}
+                      aria-invalid={errors.frequency ? true : undefined}
+                    >
+                      {signup.frequencyOptions[key]}
+                    </Pill>
+                  ))}
+                </div>
+                <FieldError id={errorId('frequency')} message={errors.frequency} />
+              </fieldset>
 
-              <QuestionCard>
-                <fieldset aria-describedby="signup-level-hint">
-                  <legend className="font-bold text-slate-900">{signup.levelLabel}</legend>
-                  <p id="signup-level-hint" className="mt-1 text-sm text-slate-600">
-                    {signup.levelHint}
-                  </p>
-                  <div className="mt-4 grid gap-1 sm:grid-cols-3">
-                    {levelOrder.map((key) => (
-                      <label key={key} className="flex cursor-pointer items-center gap-3 rounded-lg px-1 py-2 hover:bg-slate-50">
-                        <input
-                          type="radio"
-                          name="level"
-                          value={key}
-                          checked={values.level === key}
-                          onChange={() => update('level', key)}
-                          className="size-5 shrink-0 accent-teal-700"
-                        />
-                        <span className="text-slate-800">{signup.levelOptions[key]}</span>
-                      </label>
-                    ))}
-                  </div>
-                </fieldset>
-              </QuestionCard>
+              <fieldset aria-describedby="signup-level-hint">
+                <legend className={labelClass}>{signup.levelLabel}</legend>
+                <p id="signup-level-hint" className="mt-0.5 text-sm text-slate-600">
+                  {signup.levelHint}
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {levelOrder.map((key) => (
+                    <Pill
+                      key={key}
+                      name="level"
+                      value={key}
+                      checked={values.level === key}
+                      onChange={() => update('level', key)}
+                    >
+                      {signup.levelOptions[key]}
+                    </Pill>
+                  ))}
+                </div>
+              </fieldset>
 
-              <QuestionCard error={errors.goal}>
-                <label htmlFor="signup-goal" className="block font-bold text-slate-900">
+              <div>
+                <label htmlFor="signup-goal" className={labelClass}>
                   {signup.goalLabel}
                 </label>
                 <textarea
@@ -326,86 +320,76 @@ export function SignupCta() {
                   onChange={(e) => update('goal', e.target.value)}
                   aria-invalid={errors.goal ? true : undefined}
                   aria-describedby={describedBy('goal')}
-                  className={`${inputClass} resize-none ${errors.goal ? 'border-red-600' : 'border-slate-300'}`}
+                  className={`${inputClass} resize-none ${borderFor(errors.goal)}`}
                 />
                 <FieldError id={errorId('goal')} message={errors.goal} />
-              </QuestionCard>
+              </div>
 
-              <QuestionCard>
-                <fieldset>
-                  <legend className="font-bold text-slate-900">{signup.referralLabel}</legend>
-                  <div className="mt-4 grid gap-1 sm:grid-cols-2">
-                    {referralKeys.map((key) => (
-                      <label key={key} className="flex cursor-pointer items-center gap-3 rounded-lg px-1 py-2 hover:bg-slate-50">
-                        <input
-                          type="radio"
-                          name="referral"
-                          value={key}
-                          checked={values.referral === key}
-                          onChange={() => update('referral', key)}
-                          className="size-5 shrink-0 accent-teal-700"
-                        />
-                        <span className="text-slate-800">{signup.referralOptions[key]}</span>
-                      </label>
-                    ))}
-                  </div>
-                </fieldset>
-              </QuestionCard>
+              <fieldset>
+                <legend className={labelClass}>{signup.referralLabel}</legend>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {referralKeys.map((key) => (
+                    <Pill
+                      key={key}
+                      name="referral"
+                      value={key}
+                      checked={values.referral === key}
+                      onChange={() => update('referral', key)}
+                    >
+                      {signup.referralOptions[key]}
+                    </Pill>
+                  ))}
+                </div>
+              </fieldset>
 
-              <QuestionCard error={errors.agreed}>
-                <fieldset>
-                  <legend className="block font-bold text-slate-900">
-                    {signup.agreeTitle}
+              <div className={`rounded-2xl border-2 p-4 ${errors.agreed ? 'border-red-600' : 'border-slate-200'}`}>
+                <label className="flex cursor-pointer items-center gap-3">
+                  <input
+                    ref={(el) => {
+                      fieldRefs.current.agreed = el;
+                    }}
+                    id="signup-agree"
+                    type="checkbox"
+                    name="agreed"
+                    required
+                    checked={values.agreed}
+                    onChange={(e) => update('agreed', e.target.checked)}
+                    aria-invalid={errors.agreed ? true : undefined}
+                    aria-describedby={describedBy('agreed', 'signup-agree-detail')}
+                    className="size-5 shrink-0 accent-teal-700"
+                  />
+                  <span className="font-bold text-slate-900">
+                    {signup.agreeLabel}
                     <RequiredMark />
-                  </legend>
-                  <p id="signup-agree-detail" className="mt-2 text-sm text-slate-600">
-                    {signup.agreeDetail}
-                  </p>
-                  <label className="mt-4 flex cursor-pointer items-center gap-3">
-                    <input
-                      ref={(el) => {
-                        fieldRefs.current.agreed = el;
-                      }}
-                      id="signup-agree"
-                      type="checkbox"
-                      name="agreed"
-                      required
-                      checked={values.agreed}
-                      onChange={(e) => update('agreed', e.target.checked)}
-                      aria-invalid={errors.agreed ? true : undefined}
-                      aria-describedby={describedBy('agreed', 'signup-agree-detail')}
-                      className="size-5 shrink-0 accent-teal-700"
-                    />
-                    <span className="font-medium text-slate-800">{signup.agreeLabel}</span>
-                  </label>
-                  <FieldError id={errorId('agreed')} message={errors.agreed} />
-                </fieldset>
-              </QuestionCard>
+                  </span>
+                </label>
+                <p id="signup-agree-detail" className="mt-2 text-xs text-slate-600">
+                  {signup.agreeDetail}
+                </p>
+                <FieldError id={errorId('agreed')} message={errors.agreed} />
+              </div>
             </fieldset>
 
-            <div className="mt-2 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <button
-                type="button"
-                onClick={clearForm}
-                disabled={loading}
-                className="rounded-full px-4 py-2 text-sm font-bold text-cyan-50 underline-offset-4 hover:underline"
-              >
-                {signup.clearLabel}
-              </button>
-              <button type="submit" disabled={loading} className={`${buttonStyles()} w-full sm:w-auto`}>
-                {loading ? (
-                  <span
-                    className="size-5 animate-spin rounded-full border-2 border-white/40 border-t-white"
-                    aria-hidden="true"
-                  />
-                ) : null}
-                {loading ? signup.submitting : signup.submit}
-              </button>
-            </div>
-
-            <p role="alert" className="rounded-xl bg-white px-4 py-3 text-center text-sm font-medium text-red-700 empty:hidden">
+            <button type="submit" disabled={loading} className={`${buttonStyles()} mt-6 w-full`}>
+              {loading ? (
+                <span
+                  className="size-5 animate-spin rounded-full border-2 border-white/40 border-t-white"
+                  aria-hidden="true"
+                />
+              ) : null}
+              {loading ? signup.submitting : signup.submit}
+            </button>
+            <p role="alert" className="mt-3 text-center text-sm font-medium text-red-700 empty:hidden">
               {status === 'error' ? errorMessage : ''}
             </p>
+            <button
+              type="button"
+              onClick={clearForm}
+              disabled={loading}
+              className="mx-auto mt-2 block rounded-full px-4 py-2 text-sm font-bold text-slate-600 hover:underline"
+            >
+              {signup.clearLabel}
+            </button>
           </form>
         )}
       </div>

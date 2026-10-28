@@ -28,9 +28,9 @@ src/
     date.ts            기록 날짜 표시
     board.ts           주간 진행판: 주차 날짜, 주간 집계, 기록 많은 순 정렬
   components/
-    sections/          SiteHeader, Hero, HowItWorks(참여 방법 + 기록 예시), WeeklyBoard,
-                       Testimonials, Faq, SignupCta, Footer
-    ui/                LogCard, Button, Badge, WaveBackground, EntryDialog, Icon, SectionHeading
+    sections/          SiteHeader, Hero, HowItWorks, WeeklyBoard(오늘의 인증 + 전체 진행판),
+                       Faq, SignupCta, Footer
+    ui/                CheckInForm, BoardTable, Button, Badge, WaveBackground, Icon, SectionHeading
   tests/               Vitest 단위 테스트
 ```
 
