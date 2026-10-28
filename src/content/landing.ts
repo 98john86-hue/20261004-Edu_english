@@ -154,7 +154,7 @@ export const faq = {
     },
     {
       question: '비용이 드나요?',
-      answer: '사전 등록은 무료예요. 챌린지 운영 방식과 비용 여부는 시작 전 안내드릴게요. (플레이스홀더 답변)',
+      answer: '아니요, 사전 등록부터 챌린지 참여까지 모두 무료예요.',
     },
     {
       question: '안전을 위해 주의할 점이 있나요?',
@@ -167,7 +167,7 @@ export const faq = {
 export const signup = {
   eyebrow: '사전 등록',
   title: '오늘부터 한 줄씩, 함께 시작해요',
-  description: '사전 신청하신 분께 챌린지 일정과 참여 방법을 가장 먼저 알려드려요. 신청만으로는 비용이 청구되지 않아요.',
+  description: '사전 신청하신 분께 챌린지 일정과 참여 방법을 가장 먼저 알려드려요.',
   requiredNotice: '* 표시는 필수 질문이에요',
   requiredMark: '필수',
   answerPlaceholder: '내 답변',
