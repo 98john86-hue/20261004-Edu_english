@@ -1,33 +1,34 @@
-import { howItWorks } from '@/content/landing';
-import { Icon } from '@/components/ui/Icon';
+import { distanceExample, howItWorks, learningExample } from '@/content/landing';
+import { DistanceLogCard, LearningLogCard } from '@/components/ui/LogCard';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { Reveal } from '@/components/Reveal';
 
 export function HowItWorks() {
   return (
-    <section id="how" aria-labelledby="how-title" className="scroll-mt-16 py-16 sm:py-24">
-      <Reveal className="mx-auto max-w-6xl px-4 sm:px-6">
+    <section id="how" aria-labelledby="how-title" className="scroll-mt-16 px-4 py-14 sm:py-20">
+      <div className="mx-auto max-w-3xl">
         <SectionHeading id="how-title" eyebrow={howItWorks.eyebrow} title={howItWorks.title} />
-        <ol className="grid gap-5 md:grid-cols-3">
+        <ol className="grid gap-3 sm:grid-cols-3">
           {howItWorks.steps.map((step, i) => (
-            <li key={step.title} className="relative rounded-3xl border border-sky-100 bg-sky-50/60 p-6 sm:p-8">
-              <div className="flex items-center gap-4">
-                <span className="grid size-14 place-items-center rounded-2xl bg-teal-700 text-white">
-                  <Icon name={step.icon} className="size-7" />
-                </span>
-                <span className="text-4xl font-black text-sky-600" aria-hidden="true">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
+            <li key={step.title} className="flex gap-3 rounded-2xl bg-sky-50 p-4 sm:flex-col">
+              <span className="grid size-8 shrink-0 place-items-center rounded-full bg-teal-700 text-sm font-bold text-white">
+                {i + 1}
+              </span>
+              <div>
+                <h3 className="font-bold text-slate-900">{step.title}</h3>
+                <p className="mt-0.5 text-sm text-slate-600">{step.description}</p>
               </div>
-              <h3 className="mt-5 text-xl font-bold text-slate-900">
-                <span className="sr-only">{i + 1}. </span>
-                {step.title}
-              </h3>
-              <p className="mt-2 text-slate-600">{step.description}</p>
             </li>
           ))}
         </ol>
-      </Reveal>
+
+        <h3 className="mt-12 text-center text-xl font-extrabold text-slate-900">{howItWorks.examplesTitle}</h3>
+        <div className="mt-5 grid items-center gap-3 sm:grid-cols-[1fr_auto_1fr]">
+          <DistanceLogCard log={distanceExample} />
+          <p className="text-center text-sm font-bold text-slate-500">{howItWorks.orLabel}</p>
+          <LearningLogCard log={learningExample} />
+        </div>
+        <p className="mt-4 text-center text-sm text-slate-600">{howItWorks.examplesNote}</p>
+      </div>
     </section>
   );
 }

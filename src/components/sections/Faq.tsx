@@ -6,7 +6,7 @@ import { Icon } from '@/components/ui/Icon';
 import { SectionHeading } from '@/components/ui/SectionHeading';
 
 export function Faq() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   const baseId = useId();
   const buttonsRef = useRef<Array<HTMLButtonElement | null>>([]);
 
@@ -26,7 +26,7 @@ export function Faq() {
   };
 
   return (
-    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-16 py-16 sm:py-24">
+    <section id="faq" aria-labelledby="faq-title" className="scroll-mt-16 bg-sky-50 py-14 sm:py-20">
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <SectionHeading id="faq-title" eyebrow={faq.eyebrow} title={faq.title} />
         <div className="divide-y divide-slate-200 rounded-3xl border border-slate-200 bg-white">

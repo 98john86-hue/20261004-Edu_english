@@ -3,7 +3,7 @@
 import { useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { levelOrder, signup } from '@/content/landing';
 import { submitSignup } from '@/lib/signup';
-import type { ReferralSource, SignupData, SwimFrequency } from '@/lib/types';
+import type { Level, ReferralSource, SignupData, SwimFrequency } from '@/lib/types';
 import {
   formatPhone,
   normalizePhone,
@@ -13,7 +13,6 @@ import {
   type SignupErrors,
   type SignupField,
 } from '@/lib/validation';
-import { useLevel } from '@/components/LevelContext';
 import { buttonStyles } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -25,23 +24,24 @@ type FormValues = {
   phone: string;
   email: string;
   frequency: SwimFrequency | '';
+  level: Level | '';
   goal: string;
   referral: ReferralSource | '';
   agreed: boolean;
 };
 
-const emptyValues: FormValues = { name: '', phone: '', email: '', frequency: '', goal: '', referral: '', agreed: false };
+const emptyValues: FormValues = { name: '', phone: '', email: '', frequency: '', level: '', goal: '', referral: '', agreed: false };
 
 const referralKeys = Object.keys(signup.referralOptions) as ReferralSource[];
 const frequencyKeys = Object.keys(signup.frequencyOptions) as SwimFrequency[];
 
 const inputClass =
-  'mt-4 w-full border-0 border-b-2 bg-transparent px-0 py-2 text-base text-slate-900 placeholder:text-slate-500 focus:border-teal-600 focus:ring-0';
+  'mt-2 w-full border-0 border-b-2 bg-transparent px-0 py-2 text-base text-slate-900 placeholder:text-slate-500 focus:border-teal-600 focus:ring-0';
 
 /** 구글 폼처럼 질문 하나를 카드 하나로 감싼다 */
 function QuestionCard({ error, children }: { error?: string; children: ReactNode }) {
   return (
-    <div className={`rounded-2xl border bg-white p-5 shadow-sm sm:p-6 ${error ? 'border-red-600' : 'border-slate-200'}`}>
+    <div className={`rounded-2xl border bg-white p-4 shadow-sm sm:p-6 ${error ? 'border-red-600' : 'border-slate-200'}`}>
       {children}
     </div>
   );
@@ -68,7 +68,6 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 const errorId = (field: SignupField) => `signup-${field}-error`;
 
 export function SignupCta() {
-  const { level, chosen, setLevel, clearChosen } = useLevel();
   const [values, setValues] = useState<FormValues>(emptyValues);
   const [errors, setErrors] = useState<SignupErrors>({});
   const [status, setStatus] = useState<Status>('idle');
@@ -95,7 +94,7 @@ export function SignupCta() {
       email: values.email.trim(),
       agreed: values.agreed,
       ...(values.frequency ? { frequency: values.frequency } : {}),
-      ...(chosen ? { level } : {}),
+      ...(values.level ? { level: values.level } : {}),
       ...(goal ? { goal } : {}),
       ...(values.referral ? { referral: values.referral } : {}),
     };
@@ -129,7 +128,6 @@ export function SignupCta() {
 
   const clearForm = () => {
     setValues(emptyValues);
-    clearChosen();
     setErrors({});
     setStatus('idle');
     setErrorMessage('');
@@ -146,9 +144,9 @@ export function SignupCta() {
     <section
       id="signup"
       aria-labelledby="signup-title"
-      className="scroll-mt-16 bg-linear-to-br from-teal-700 via-cyan-800 to-sky-900 py-16 sm:py-24"
+      className="scroll-mt-16 bg-teal-800 px-4 py-14 sm:py-20"
     >
-      <div className="mx-auto max-w-2xl px-4 sm:px-6">
+      <div className="mx-auto max-w-2xl">
         <SectionHeading id="signup-title" eyebrow={signup.eyebrow} title={signup.title} tone="inverse" />
 
         {status === 'success' ? (
@@ -300,8 +298,8 @@ export function SignupCta() {
                           type="radio"
                           name="level"
                           value={key}
-                          checked={chosen && level === key}
-                          onChange={() => setLevel(key)}
+                          checked={values.level === key}
+                          onChange={() => update('level', key)}
                           className="size-5 shrink-0 accent-teal-700"
                         />
                         <span className="text-slate-800">{signup.levelOptions[key]}</span>

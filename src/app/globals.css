@@ -28,17 +28,6 @@
   }
 }
 
-/* 스크롤 등장 효과: JS가 숨김 클래스를 붙인 요소만 대상 */
-.reveal-hidden {
-  opacity: 0;
-  transform: translateY(24px);
-}
-.reveal-shown {
-  opacity: 1;
-  transform: none;
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -48,9 +37,5 @@
   *::after {
     animation: none !important;
     transition: none !important;
-  }
-  .reveal-hidden {
-    opacity: 1;
-    transform: none;
   }
 }

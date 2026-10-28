@@ -12,7 +12,7 @@ type SectionHeadingProps = {
 export function SectionHeading({ id, eyebrow, title, description, badge, tone = 'default' }: SectionHeadingProps) {
   const inverse = tone === 'inverse';
   return (
-    <div className="mx-auto mb-10 max-w-2xl text-center sm:mb-12">
+    <div className="mx-auto mb-8 max-w-2xl text-center sm:mb-10">
       <p className={`text-sm font-bold tracking-wider ${inverse ? 'text-cyan-100' : 'text-teal-700'}`}>{eyebrow}</p>
       <h2
         id={id}

@@ -16,9 +16,8 @@ function WaveLayer({ className, fill, animation }: { className: string; fill: st
 export function WaveBackground() {
   return (
     <div aria-hidden="true">
-      <WaveLayer className="h-28 opacity-60 sm:h-36" fill="#7dd3fc" animation="animate-wave-slow" />
-      <WaveLayer className="h-20 opacity-70 sm:h-28" fill="#5eead4" animation="animate-wave" />
-      <WaveLayer className="h-12 sm:h-16" fill="#ffffff" animation="animate-wave-slow" />
+      <WaveLayer className="h-16 opacity-60 sm:h-24" fill="#5eead4" animation="animate-wave-slow" />
+      <WaveLayer className="h-10 sm:h-14" fill="#ffffff" animation="animate-wave" />
     </div>
   );
 }

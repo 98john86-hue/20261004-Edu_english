@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import { useMemo, useState } from 'react';
 import { board, challenge } from '@/content/landing';
 import {
@@ -15,35 +16,44 @@ import {
 import { formatMeters, getTotalDistance } from '@/lib/distance';
 import type { SwimLog } from '@/lib/types';
 import { Badge } from '@/components/ui/Badge';
-import { EntryDialog } from '@/components/ui/EntryDialog';
 import { Icon } from '@/components/ui/Icon';
 import { SectionHeading } from '@/components/ui/SectionHeading';
+
+// 입력창은 처음 열 때만 불러온다 (초기 JS 줄이기)
+const EntryDialog = dynamic(() => import('@/components/ui/EntryDialog').then((m) => m.EntryDialog), { ssr: false });
 
 type Row = { id: string; name: string; isMe: boolean; logs: readonly SwimLog[] };
 
 const ME_ID = 'me';
 
-function DayContent({ day }: { day: DayLogs }) {
-  if (!day.distance && !day.learning) return null;
+// 예시 참여자 기록은 고정값이라 모듈에서 한 번만 만든다
+const sampleRows: Row[] = board.participants.map((p, i) => ({
+  id: p.id,
+  name: p.name,
+  isMe: false,
+  logs: buildSampleLogs(p.weeks, challenge.startDate, board.samplePools, i * 3),
+}));
+
+/** 요일 칸: 거리는 숫자로, 배운 점은 전구 아이콘으로 표시 */
+function DayMark({ day }: { day: DayLogs }) {
+  if (!day.distance && !day.learning) return <span aria-hidden="true">·</span>;
   return (
-    <span className="flex flex-col gap-1 text-left">
+    <span className="flex flex-col items-center gap-0.5">
       {day.distance ? (
-        <span className="inline-flex w-fit items-center gap-1 rounded-md bg-sky-100 px-1.5 py-0.5 text-xs font-bold text-sky-900">
-          <Icon name="ruler" className="size-3.5" />
+        <span className="text-[11px] leading-none font-bold tracking-tight">
           {formatMeters(getTotalDistance(day.distance))}
         </span>
       ) : null}
-      {day.learning ? (
-        <span className="flex items-start gap-1 rounded-md bg-teal-50 px-1.5 py-1 text-xs leading-snug text-teal-950">
-          <Icon name="bulb" className="mt-px size-3.5 shrink-0 text-teal-700" />
-          <span className="line-clamp-3">
-            {day.learning.stroke ? <strong className="font-bold">{day.learning.stroke} </strong> : null}
-            {day.learning.note}
-          </span>
-        </span>
-      ) : null}
+      {day.learning ? <Icon name="bulb" className="size-4" /> : null}
     </span>
   );
+}
+
+function srDayText(day: DayLogs): string {
+  const parts: string[] = [];
+  if (day.distance) parts.push(formatMeters(getTotalDistance(day.distance)));
+  if (day.learning) parts.push(`${board.learningCell}: ${day.learning.note}`);
+  return parts.length ? parts.join(', ') : board.emptyCell;
 }
 
 export function WeeklyBoard() {
@@ -51,38 +61,17 @@ export function WeeklyBoard() {
   const [myLogs, setMyLogs] = useState<SwimLog[]>([]);
   const [editingDate, setEditingDate] = useState<string | null>(null);
 
-  const samples = useMemo<Row[]>(
-    () =>
-      board.participants.map((p, i) => ({
-        id: p.id,
-        name: p.name,
-        isMe: false,
-        logs: buildSampleLogs(p.weeks, challenge.startDate, board.samplePools, i * 3),
-      })),
-    [],
-  );
-
   const dates = useMemo(() => getWeekDates(challenge.startDate, weekIndex), [weekIndex]);
   const rows = useMemo(
-    () => rankByWeek([...samples, { id: ME_ID, name: board.meName, isMe: true, logs: myLogs }], dates),
-    [samples, myLogs, dates],
+    () => rankByWeek([...sampleRows, { id: ME_ID, name: board.meName, isMe: true, logs: myLogs }], dates),
+    [myLogs, dates],
   );
 
-  const editingDay = useMemo(() => (editingDate ? getDayLogs(myLogs, editingDate) : {}), [editingDate, myLogs]);
-  const editingIndex = editingDate ? dates.indexOf(editingDate) : -1;
-  const editingLabel = editingDate
-    ? `${board.weekdayHeaders[editingIndex] ?? ''}요일 ${formatShortDate(editingDate)}`
-    : '';
-
-  const saveDay = (next: DayLogs) => {
-    if (!editingDate) return;
-    setMyLogs((prev) => replaceDayLogs(prev, editingDate, next));
-    setEditingDate(null);
-  };
+  const dayName = (date: string) => board.weekdayHeaders[dates.indexOf(date)] ?? '';
 
   return (
-    <section id="board" aria-labelledby="board-title" className="scroll-mt-16 py-16 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+    <section id="board" aria-labelledby="board-title" className="scroll-mt-16 bg-sky-50 px-4 py-14 sm:py-20">
+      <div className="mx-auto max-w-3xl">
         <SectionHeading
           id="board-title"
           eyebrow={board.eyebrow}
@@ -91,133 +80,118 @@ export function WeeklyBoard() {
           badge={<Badge tone="sample">{board.sampleBadge}</Badge>}
         />
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div role="group" aria-label={board.weekTabsLabel} className="flex gap-1 rounded-2xl bg-slate-100 p-1">
-            {Array.from({ length: challenge.weeks }, (_, i) => {
-              const weekDates = getWeekDates(challenge.startDate, i);
-              const selected = i === weekIndex;
-              return (
-                <button
-                  key={i}
-                  type="button"
-                  aria-pressed={selected}
-                  onClick={() => setWeekIndex(i)}
-                  className={`min-w-0 flex-1 rounded-xl px-2 py-2 text-sm font-bold sm:flex-none sm:px-3 ${
-                    selected ? 'bg-white text-teal-800 shadow' : 'text-slate-600 hover:text-slate-900'
-                  }`}
-                >
-                  {board.weekLabel(i + 1)}
-                  <span className="block text-xs font-medium text-slate-600">
-                    {formatShortDate(weekDates[0] ?? '')}~{formatShortDate(weekDates[4] ?? '')}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-          <p className="flex items-center gap-2 text-sm text-slate-700">
-            <Icon name="check" className="size-4 shrink-0 text-emerald-700" />
-            {board.goalHint}
-          </p>
+        <div role="group" aria-label={board.weekTabsLabel} className="grid grid-cols-4 gap-1 rounded-2xl bg-white p-1 shadow-sm">
+          {Array.from({ length: challenge.weeks }, (_, i) => (
+            <button
+              key={i}
+              type="button"
+              aria-pressed={i === weekIndex}
+              onClick={() => setWeekIndex(i)}
+              className={`rounded-xl py-2 text-sm font-bold ${
+                i === weekIndex ? 'bg-teal-700 text-white' : 'text-slate-600 hover:bg-slate-100'
+              }`}
+            >
+              {board.weekLabel(i + 1)}
+            </button>
+          ))}
         </div>
+        <p className="mt-3 text-center text-sm text-slate-600">
+          {formatShortDate(dates[0] ?? '')}~{formatShortDate(dates[4] ?? '')} · {board.goalHint}
+        </p>
 
-        <p className="mt-4 text-xs text-slate-500 md:hidden">{board.scrollHint}</p>
-        <div className="relative mt-2 overflow-x-auto rounded-3xl border border-slate-200 bg-white shadow-lg shadow-sky-900/5 md:mt-4">
-          <table className="w-full min-w-[640px] table-fixed border-collapse text-sm">
-            <caption className="sr-only">{board.tableCaption(weekIndex + 1)}</caption>
-            <colgroup>
-              <col className="w-32 sm:w-44" />
-              {dates.map((date) => (
-                <col key={date} />
-              ))}
-            </colgroup>
-            <thead>
-              <tr className="border-b border-slate-200 bg-slate-50">
-                <th scope="col" className="sticky left-0 z-10 bg-slate-50 px-3 py-3 text-left font-bold text-slate-700">
-                  {board.participantHeader}
-                </th>
-                {dates.map((date, i) => (
-                  <th key={date} scope="col" className="px-2 py-3 text-center font-bold text-slate-700">
-                    {board.weekdayHeaders[i]}
-                    <span className="ml-1 text-xs font-medium text-slate-500">{formatShortDate(date)}</span>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row, rank) => {
-                const summary = summarizeWeek(row.logs, dates);
-                const goalMet = summary.days >= challenge.weeklyMin;
-                return (
-                  <tr
-                    key={row.id}
-                    className={`border-b border-slate-100 last:border-0 ${row.isMe ? 'bg-amber-50/60' : ''}`}
-                  >
-                    <th
-                      scope="row"
-                      className={`sticky left-0 z-10 px-3 py-3 text-left align-top font-normal ${
-                        row.isMe ? 'bg-amber-50' : 'bg-white'
-                      }`}
-                    >
-                      <span className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-slate-500">{board.rankLabel(rank + 1)}</span>
-                        <span className="font-bold text-slate-900">{row.name}</span>
-                        {row.isMe ? (
-                          <span className="rounded-full bg-amber-200 px-2 py-0.5 text-xs font-bold text-amber-900">
-                            {board.meTag}
-                          </span>
-                        ) : null}
-                      </span>
-                      <span className="mt-1 flex flex-wrap items-center gap-1.5">
-                        <span className="text-xs font-medium text-slate-600">{board.weeklyCount(summary.days)}</span>
-                        {goalMet ? <Badge tone="success">{board.goalMet}</Badge> : null}
-                      </span>
-                    </th>
-                    {dates.map((date, i) => {
-                      const day = getDayLogs(row.logs, date);
-                      const filled = Boolean(day.distance || day.learning);
-                      const label = board.cellLabel(row.name, board.weekdayHeaders[i] ?? '', formatShortDate(date));
-                      return (
-                        <td key={date} className="h-24 px-1.5 py-2 align-top">
-                          {row.isMe ? (
-                            <button
-                              type="button"
-                              onClick={() => setEditingDate(date)}
-                              aria-label={`${label}: ${filled ? board.editHint : board.addLabel}`}
-                              className={`flex h-full min-h-20 w-full rounded-xl p-1.5 transition ${
-                                filled
-                                  ? 'border-2 border-amber-300 bg-white hover:border-amber-500'
-                                  : 'items-center justify-center border-2 border-dashed border-amber-400 font-bold text-amber-900 hover:bg-amber-100'
-                              }`}
-                            >
-                              {filled ? <DayContent day={day} /> : `+ ${board.addLabel}`}
-                            </button>
-                          ) : filled ? (
-                            <DayContent day={day} />
-                          ) : (
-                            <span className="flex h-full min-h-20 items-center justify-center rounded-xl bg-slate-50 text-xs text-slate-500">
-                              <span className="sr-only">{board.emptyCell}</span>
-                              <span aria-hidden="true">–</span>
-                            </span>
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-        <p className="mt-3 text-center text-xs text-slate-500">{board.sampleNotice}</p>
+        <ol aria-label={board.listLabel(weekIndex + 1)} className="mt-4 grid gap-3">
+          {rows.map((row) => {
+            const summary = summarizeWeek(row.logs, dates);
+            const notes = dates.flatMap((date) => {
+              const learning = getDayLogs(row.logs, date).learning;
+              return learning ? [{ date, learning }] : [];
+            });
+            return (
+              <li
+                key={row.id}
+                className={`rounded-2xl bg-white p-4 shadow-sm ${row.isMe ? 'ring-2 ring-amber-400' : ''}`}
+              >
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-slate-900">{row.name}</span>
+                  {row.isMe ? (
+                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-900">
+                      {board.meTag}
+                    </span>
+                  ) : null}
+                  <span className="ml-auto text-sm text-slate-600">{board.weeklyCount(summary.days)}</span>
+                  {summary.days >= challenge.weeklyMin ? <Badge tone="success">{board.goalMet}</Badge> : null}
+                </div>
+
+                {/* 가로: 월~금 */}
+                <div className="mt-3 grid grid-cols-5 gap-1.5">
+                  {dates.map((date, i) => {
+                    const day = getDayLogs(row.logs, date);
+                    const filled = Boolean(day.distance || day.learning);
+                    const label = board.cellLabel(row.name, board.weekdayHeaders[i] ?? '', formatShortDate(date));
+                    const base = 'flex h-14 flex-col items-center justify-center gap-1 rounded-xl text-xs';
+                    const tone = filled ? 'bg-teal-50 text-teal-900' : 'bg-slate-50 text-slate-500';
+                    return row.isMe ? (
+                      <button
+                        key={date}
+                        type="button"
+                        onClick={() => setEditingDate(date)}
+                        aria-label={`${label}: ${filled ? `${srDayText(day)}, ${board.editHint}` : board.addLabel}`}
+                        className={`${base} ${
+                          filled ? 'border-2 border-amber-300 bg-teal-50 text-teal-900' : 'border-2 border-dashed border-amber-400 text-amber-900'
+                        }`}
+                      >
+                        <span className="font-bold" aria-hidden="true">
+                          {board.weekdayHeaders[i]}
+                        </span>
+                        <span aria-hidden="true">{filled ? <DayMark day={day} /> : '+'}</span>
+                      </button>
+                    ) : (
+                      <div key={date} className={`${base} ${tone}`}>
+                        <span className="sr-only">
+                          {label}: {srDayText(day)}
+                        </span>
+                        <span aria-hidden="true" className="font-bold">
+                          {board.weekdayHeaders[i]}
+                        </span>
+                        <span aria-hidden="true">
+                          <DayMark day={day} />
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* 배운 점은 따로 들어가지 않아도 바로 보이도록 한 줄씩 */}
+                {notes.length > 0 ? (
+                  <ul className="mt-3 grid gap-1 text-sm text-slate-700" aria-hidden="true">
+                    {notes.map(({ date, learning }) => (
+                      <li key={date} className="truncate">
+                        <span className="mr-1.5 font-bold text-teal-800">{dayName(date)}</span>
+                        {learning.stroke ? <span className="mr-1 text-slate-500">{learning.stroke}</span> : null}
+                        {learning.note}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </li>
+            );
+          })}
+        </ol>
+        <p className="mt-4 text-center text-xs text-slate-600">{board.sampleNotice}</p>
       </div>
 
-      <EntryDialog
-        date={editingDate}
-        dateLabel={editingLabel}
-        initial={editingDay}
-        onSave={saveDay}
-        onClose={() => setEditingDate(null)}
-      />
+      {editingDate ? (
+        <EntryDialog
+          date={editingDate}
+          dateLabel={`${dayName(editingDate)}요일 ${formatShortDate(editingDate)}`}
+          initial={getDayLogs(myLogs, editingDate)}
+          onSave={(next) => {
+            setMyLogs((prev) => replaceDayLogs(prev, editingDate, next));
+            setEditingDate(null);
+          }}
+          onClose={() => setEditingDate(null)}
+        />
+      ) : null}
     </section>
   );
 }

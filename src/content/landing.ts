@@ -15,9 +15,7 @@ export const header = {
   homeLabel: '한 달 수영 기록 챌린지 홈',
   nav: [
     { href: '#how', label: '참여 방법' },
-    { href: '#examples', label: '기록 예시' },
     { href: '#board', label: '진행판' },
-    { href: '#levels', label: '난이도' },
     { href: '#faq', label: 'FAQ' },
   ],
   navLabel: '주요 메뉴',
@@ -25,35 +23,24 @@ export const header = {
 } as const;
 
 export const hero = {
-  eyebrow: '한 달 수영 기록 챌린지 · 사전 등록 중',
+  eyebrow: '사전 등록 중',
   headlineLines: ['한 달, 평일마다 한 줄씩', '쌓이는 나의 수영'],
   subcopy: '거리 또는 배운 점, 하나만 기록하면 오늘도 성공.',
-  body: '4주 동안 월~금 중 주 3~5회만 기록하면 돼요. 많이 못 헤엄친 날도 배운 점 한 줄이면 충분해요. 주말은 푹 쉬어요.',
+  body: '4주 동안 월~금 중 주 3~5회. 주말은 쉬어요.',
   primaryCta: '챌린지 사전 등록하기',
-  secondaryCta: '기록 예시 보기',
-  chips: ['4주 · 평일 주 3~5회', '하루 1분 기록', '무료 사전 등록'],
 } as const;
 
 export const howItWorks = {
   eyebrow: '참여 방법',
-  title: '세 단계면 충분해요',
+  title: '수영하고, 한 줄 남기면 끝',
   steps: [
-    {
-      icon: 'level',
-      title: '난이도 선택',
-      description: '초급·중급·상급 중 지금 나에게 맞는 단계를 골라요. 언제든 바꿀 수 있어요.',
-    },
-    {
-      icon: 'note',
-      title: '평일 수영 후 기록',
-      description: '월~금 중 주 3~5회, 헤엄친 거리 또는 오늘 배운 점 중 하나만 남기면 그날은 인증 완료예요.',
-    },
-    {
-      icon: 'flag',
-      title: '4주 완주',
-      description: '매주 3회 이상 인증하며 4주를 채우면 한 달의 기록이 나만의 수영 노트가 됩니다.',
-    },
+    { title: '사전 등록', description: '시작 전에 일정과 참여 방법을 알려드려요.' },
+    { title: '평일 주 3~5회 기록', description: '거리나 배운 점, 하나만 남겨도 인증돼요.' },
+    { title: '4주 완주', description: '한 달의 기록이 나만의 수영 노트가 돼요.' },
   ],
+  examplesTitle: '이렇게 기록해요',
+  orLabel: '또는',
+  examplesNote: '둘 다 남겨도 좋아요. 1바퀴는 왕복 기준(25m 레인 = 50m)이에요.',
 } as const;
 
 export const distanceExample: DistanceLog = {
@@ -73,98 +60,12 @@ export const learningExample: LearningLog = {
 export const logCard = {
   distanceTitle: '거리 기록',
   learningTitle: '배움 기록',
-  laneLabel: '레인 길이',
-  lapsLabel: '바퀴 수',
-  totalLabel: '총 거리',
   lapsUnit: '바퀴',
-  lapsHint: '왕복 기준',
   strokeLabel: '영법',
-  noteLabel: '오늘 배운 점',
-  successBadge: '오늘 성공',
-  emptyNote: '배운 점을 입력하면 여기에 표시돼요.',
 } as const;
-
-export const logExamples = {
-  eyebrow: '기록 예시',
-  title: '이렇게 기록해요',
-  description: '수영을 마치고 1분이면 충분해요. 둘 중 하나만 남겨도 그날은 성공입니다.',
-  bothNote: '거리와 배운 점을 같은 날 함께 남길 수도 있어요. 둘 다 기록한 날은 진행판 칸에 함께 표시돼요.',
-  orLabel: '또는',
-  lapNote: '1바퀴는 왕복 기준이에요. 25m 레인이면 1바퀴 = 50m, 총 거리는 자동으로 계산돼요.',
-} as const;
-
-export const benefits = {
-  eyebrow: '참여 효과',
-  title: '한 달 뒤, 이런 변화가 생겨요',
-  items: [
-    {
-      icon: 'calendar',
-      title: '습관 형성',
-      description: '평일마다 기록하는 작은 행동이 수영장 가는 발걸음을 꾸준하게 만들어요.',
-    },
-    {
-      icon: 'chart',
-      title: '실력 성장 체감',
-      description: '쌓인 거리와 배운 점을 돌아보면 어제보다 나아진 내가 보여요.',
-    },
-    {
-      icon: 'book',
-      title: '나만의 수영 노트',
-      description: '한 달 동안 모인 배움이 다시 꺼내 볼 수 있는 나만의 교과서가 돼요.',
-    },
-    {
-      icon: 'spark',
-      title: '동기 유지',
-      description: '진행판에서 다른 참여자의 기록을 보며 서로 자극을 주고받을 수 있어요.',
-    },
-  ],
-} as const;
-
-export type LevelContent = {
-  label: string;
-  title: string;
-  target: string;
-  distanceExample: string;
-  learningExample: string;
-};
 
 export const levelOrder: readonly Level[] = ['beginner', 'intermediate', 'advanced'];
 
-export const levelContent: Record<Level, LevelContent> = {
-  beginner: {
-    label: '초급',
-    title: '물과 친해지는 중',
-    target: '수영을 배우기 시작했거나 오랜만에 다시 시작하는 분',
-    distanceExample: '25m 4바퀴',
-    learningExample: '호흡할 때 고개를 너무 들지 않기',
-  },
-  intermediate: {
-    label: '중급',
-    title: '영법을 다듬는 중',
-    target: '네 가지 영법을 배웠고 꾸준히 거리를 늘리고 싶은 분',
-    distanceExample: '25m 10바퀴 (500m)',
-    learningExample: '평영 발차기 타이밍 맞추기',
-  },
-  advanced: {
-    label: '상급',
-    title: '기록을 끌어올리는 중',
-    target: '인터벌 훈련을 하며 효율과 기록을 다듬고 싶은 분',
-    distanceExample: '1,500m 인터벌',
-    learningExample: '접영 웨이브 리듬 교정',
-  },
-};
-
-export const levels = {
-  eyebrow: '난이도 선택',
-  title: '나에게 맞는 난이도를 골라요',
-  description: '선택한 난이도는 아래 사전 등록 폼에 자동으로 반영돼요.',
-  legend: '챌린지 난이도',
-  targetLabel: '이런 분께 추천해요',
-  examplesLabel: '권장 기록 예시',
-  distancePrefix: '거리',
-  learningPrefix: '배움',
-  selectedLabel: '선택됨',
-} as const;
 
 /** 챌린지 일정 (예시 일정: 시작일은 1주차 월요일) */
 export const challenge = {
@@ -184,26 +85,23 @@ export type SampleParticipant = {
 export const board = {
   eyebrow: '주간 진행판',
   title: '이번 주, 다 같이 채워 가요',
-  description:
-    '월~금 칸을 눌러 바로 기록하고, 다른 참여자의 기록도 따로 들어가지 않고 한 화면에서 볼 수 있어요. 한 주에 기록이 많은 참여자가 위에 표시돼요.',
+  description: '내 칸을 눌러 기록하고, 다른 참여자의 기록도 바로 볼 수 있어요. 기록이 많은 순으로 보여요.',
   sampleBadge: '예시 데이터',
-  sampleNotice: '다른 참여자의 이름과 기록은 모두 예시예요. 내 줄에 입력한 기록은 저장되지 않아요.',
+  sampleNotice: '다른 참여자의 이름과 기록은 예시예요. 내가 입력한 기록은 저장되지 않아요.',
   weekTabsLabel: '주차 선택',
   weekLabel: (n: number) => `${n}주차`,
-  tableCaption: (n: number) => `${n}주차 참여자별 기록 (월~금, 기록이 많은 순)`,
-  participantHeader: '참여자',
+  listLabel: (n: number) => `${n}주차 참여자별 기록 (기록이 많은 순)`,
   weekdayHeaders: ['월', '화', '수', '목', '금'],
   meName: '나',
   meTag: '체험',
-  rankLabel: (rank: number) => `${rank}위`,
   weeklyCount: (count: number) => `주 ${count}회`,
-  goalMet: '이번 주 성공',
-  goalHint: '평일 중 주 3회 이상 인증하면 그 주는 성공이에요.',
+  goalMet: '성공',
+  goalHint: '주 3회 이상 인증하면 그 주는 성공',
   addLabel: '기록하기',
   cellLabel: (name: string, day: string, date: string) => `${name}, ${day}요일 ${date}`,
   editHint: '눌러서 수정',
   emptyCell: '기록 없음',
-  scrollHint: '표를 옆으로 밀어 월~금을 모두 볼 수 있어요.',
+  learningCell: '배운 점',
   dialog: {
     title: (date: string) => `${date} 기록`,
     hint: '거리나 배운 점 중 하나만 입력해도 인증돼요.',
@@ -330,7 +228,7 @@ export const signup = {
     six: '주 6회',
   } satisfies Record<SwimFrequency, string>,
   levelLabel: '지금 수영 강습 등록을 하셨다면 레벨은?',
-  levelHint: '강습을 듣지 않으면 비워 두셔도 돼요. 위에서 난이도를 고르면 여기에도 반영돼요.',
+  levelHint: '강습을 듣지 않으면 비워 두셔도 돼요.',
   levelOptions: {
     beginner: '초급',
     intermediate: '중급',

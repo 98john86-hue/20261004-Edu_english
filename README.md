@@ -28,11 +28,9 @@ src/
     date.ts            기록 날짜 표시
     board.ts           주간 진행판: 주차 날짜, 주간 집계, 기록 많은 순 정렬
   components/
-    sections/          Hero, HowItWorks, LogExamples, Benefits, LevelSelect,
-                       WeeklyBoard, Testimonials, Faq, SignupCta, Footer (+ SiteHeader)
+    sections/          SiteHeader, Hero, HowItWorks(참여 방법 + 기록 예시), WeeklyBoard,
+                       Testimonials, Faq, SignupCta, Footer
     ui/                LogCard, Button, Badge, WaveBackground, EntryDialog, Icon, SectionHeading
-    LevelContext.tsx   난이도 선택 ↔ 신청 폼 공유 상태
-    Reveal.tsx         스크롤 등장 효과
   tests/               Vitest 단위 테스트
 ```
 
