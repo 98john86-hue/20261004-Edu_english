@@ -3,16 +3,16 @@ import type { Level, ReferralSource, Stroke, SwimFrequency } from '@/lib/types';
 /** 페이지의 모든 문구와 예시 데이터. 컴포넌트에는 문구를 하드코딩하지 않는다. */
 
 export const site = {
-  name: '한 달 수영 기록 챌린지',
-  title: '한 달 수영 기록 챌린지 | 매일 한 줄씩 쌓이는 나의 수영',
+  name: '나만의 워터로그 챌린지',
+  title: '나만의 워터로그 챌린지 | 한 달, 매일 한 줄씩 쌓이는 나의 수영',
   description:
     '한 달(4주) 동안 평일 주 3~5회, 수영 거리나 배운 점을 기록하는 챌린지. 많이 못 헤엄친 날도 배운 점 한 줄이면 성공이에요. 지금 사전 등록하세요.',
-  ogDescription: '거리 또는 배운 점, 하나만 기록하면 오늘도 성공. 평일 주 3~5회 한 달 수영 기록 챌린지 사전 등록 중.',
+  ogDescription: '거리 또는 배운 점, 하나만 기록하면 오늘도 성공. 나만의 워터로그 챌린지 사전 등록 중.',
   locale: 'ko_KR',
 } as const;
 
 export const header = {
-  homeLabel: '한 달 수영 기록 챌린지 홈',
+  homeLabel: '나만의 워터로그 챌린지 홈',
   nav: [
     { href: '#how', label: '참여 방법' },
     { href: '#board', label: '인증·진행판' },
@@ -147,7 +147,7 @@ export const board = {
 
 /** 사전 등록 폼 위에 들어가는 이야기. 한 항목이 화면에서 한 줄 */
 export const story = {
-  title: '워터로그 챌린지',
+  title: '나만의 워터로그 챌린지',
   stanzas: [
     ['평생 일만 하고 돈만 버는,', '수동적인 사람으로 살아왔어요.'],
     ['그런데 수영을 하며 건강해지면서,', '내가 좋아하는 게 무엇인지 알게 되었습니다.'],
@@ -247,7 +247,7 @@ export const footer = {
   contactEmail: 'hello@example.com',
   contactNote: '(플레이스홀더)',
   safety: '수영 전 건강 상태를 확인하고, 안전요원이 있는 곳에서 무리하지 않고 수영해 주세요.',
-  copyright: (year: number) => `© ${year} 한 달 수영 기록 챌린지. All rights reserved.`,
+  copyright: (year: number) => `© ${year} 나만의 워터로그 챌린지. All rights reserved.`,
 } as const;
 
 export const weekdays = ['일', '월', '화', '수', '목', '금', '토'] as const;
