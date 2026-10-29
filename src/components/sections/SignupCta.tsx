@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, type ComponentPropsWithRef, type FormEvent, type ReactNode } from 'react';
-import { levelOrder, signup } from '@/content/landing';
+import { levelOrder, signup, story } from '@/content/landing';
 import { submitSignup } from '@/lib/signup';
 import type { Level, ReferralSource, SignupData, SwimFrequency } from '@/lib/types';
 import {
@@ -15,7 +15,6 @@ import {
 } from '@/lib/validation';
 import { buttonStyles } from '@/components/ui/Button';
 import { Icon } from '@/components/ui/Icon';
-import { SectionHeading } from '@/components/ui/SectionHeading';
 
 type Status = 'idle' | 'loading' | 'success' | 'error';
 
@@ -146,13 +145,32 @@ export function SignupCta() {
   return (
     <section id="signup" aria-labelledby="signup-title" className="scroll-mt-16 bg-teal-800 px-4 py-14 sm:py-20">
       <div className="mx-auto max-w-xl">
-        <SectionHeading
-          id="signup-title"
-          eyebrow={signup.eyebrow}
-          title={signup.title}
-          description={signup.description}
-          tone="inverse"
-        />
+        {/* 워터로그 챌린지 이야기: 한 항목이 한 줄이 되도록 화면 폭에 맞춰 글자 크기를 조절 */}
+        <div className="mb-10 text-center text-white">
+          <p className="text-sm font-bold tracking-wider text-cyan-100">{signup.eyebrow}</p>
+          <h2 id="signup-title" className="mt-2 text-2xl font-extrabold sm:text-4xl">
+            {story.title}
+          </h2>
+          <div className="mt-8 flex flex-col gap-6 text-[clamp(14px,4.1vw,19px)] leading-relaxed text-cyan-50">
+            {story.stanzas.map((stanza) => (
+              <p key={stanza[0]}>
+                {stanza.map((line) => (
+                  <span key={line} className="block whitespace-nowrap">
+                    {line}
+                  </span>
+                ))}
+              </p>
+            ))}
+          </div>
+          <p className="mt-8 text-[clamp(18px,5.2vw,30px)] leading-snug font-extrabold">
+            {story.closing.map((line) => (
+              <span key={line} className="block whitespace-nowrap">
+                {line}
+              </span>
+            ))}
+          </p>
+          <p className="mt-8 text-sm text-cyan-100">{signup.description}</p>
+        </div>
 
         {status === 'success' ? (
           <div ref={successRef} tabIndex={-1} role="status" className="rounded-3xl bg-white p-8 text-center shadow-2xl">

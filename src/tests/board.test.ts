@@ -49,6 +49,14 @@ describe('summarizeWeek / rankByWeek', () => {
     ];
     expect(rankByWeek(rows, week).map((r) => r.id)).toEqual(['many', 'tieDaysMore', 'tieDaysLess', 'few', 'none']);
   });
+
+  it('주간 목표를 달성한 참여자가 기록 수와 상관없이 위로 온다', () => {
+    const rows = [
+      { id: 'manyLogsNotMet', goal: 4, logs: [dist('2026-11-02'), learn('2026-11-02'), dist('2026-11-03'), learn('2026-11-03'), dist('2026-11-04')] },
+      { id: 'met', goal: 3, logs: [dist('2026-11-02'), dist('2026-11-03'), dist('2026-11-04')] },
+    ];
+    expect(rankByWeek(rows, week).map((r) => r.id)).toEqual(['met', 'manyLogsNotMet']);
+  });
 });
 
 describe('getDayLogs / replaceDayLogs', () => {

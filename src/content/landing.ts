@@ -97,11 +97,11 @@ export const board = {
     notSaved: '체험용이라 입력한 기록은 저장되지 않아요.',
   },
   boardTitle: '전체 진행판',
-  boardDescription: '한 주에 기록이 많은 참여자가 위에 보여요. 다른 참여자 이름과 기록은 예시예요.',
+  boardDescription: '주간 목표를 달성한 참여자부터, 기록이 많은 순으로 보여요. 다른 참여자 이름과 기록은 예시예요.',
   sampleNotice: '예시 데이터',
   weekTabsLabel: '주차 선택',
   weekLabel: (n: number) => `${n}주차`,
-  tableCaption: (n: number) => `${n}주차 참여자별 인증 기록 (월~금, 기록이 많은 순)`,
+  tableCaption: (n: number) => `${n}주차 참여자별 인증 기록 (월~금, 목표 달성자와 기록이 많은 순)`,
   participantHeader: '참여자',
   weekdayHeaders: ['월', '화', '수', '목', '금'],
   meName: '나',
@@ -145,15 +145,15 @@ export const board = {
   ] as const satisfies ReadonlyArray<SampleParticipant>,
 } as const;
 
+/** 사전 등록 폼 위에 들어가는 이야기. 한 항목이 화면에서 한 줄 */
 export const story = {
-  eyebrow: '오수완 이야기',
-  lines: [
-    '평생 일만 하고 돈만 버는, 수동적인 사람으로 살아왔어요.',
-    '그런데 수영을 하며 건강해지면서, 내가 좋아하는 게 무엇인지 알게 되었습니다.',
-    '거창한 목표는 필요 없어요. 매일의 수영 기록, 그 작은 성취가 쌓이면 자신감은 반드시 따라옵니다.',
+  title: '워터로그 챌린지',
+  stanzas: [
+    ['평생 일만 하고 돈만 버는,', '수동적인 사람으로 살아왔어요.'],
+    ['그런데 수영을 하며 건강해지면서,', '내가 좋아하는 게 무엇인지 알게 되었습니다.'],
+    ['거창한 목표는 필요 없어요.', '매일의 수영 기록, 그 작은 성취가 쌓이면,', '자신감은 반드시 따라옵니다.'],
   ],
-  closing: '당신의 변화도, 오수완에서 시작돼요.',
-  gloss: '오수완: 오늘 수영 완료',
+  closing: ['당신의 변화도,', '오늘도 한 걸음 나아가며 시작돼요.'],
 } as const;
 
 export const faq = {
@@ -184,7 +184,6 @@ export const faq = {
 
 export const signup = {
   eyebrow: '사전 등록',
-  title: '오늘부터 한 줄씩, 함께 시작해요',
   description: '사전 신청하신 분께 챌린지 일정과 참여 방법을 가장 먼저 알려드려요.',
   requiredNotice: '* 표시는 필수 질문이에요',
   requiredMark: '필수',

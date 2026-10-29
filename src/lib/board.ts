@@ -37,11 +37,27 @@ export function summarizeWeek(logs: readonly SwimLog[], dates: readonly string[]
   return { logs: inWeek.length, days: new Set(inWeek.map((log) => log.date)).size };
 }
 
-/** 그 주에 기록이 많은 순 → 인증한 날이 많은 순으로 정렬. 같으면 원래 순서 유지 */
-export function rankByWeek<T extends { logs: readonly SwimLog[] }>(rows: readonly T[], dates: readonly string[]): T[] {
+/**
+ * 진행판 순서: 주간 목표 달성자 → 그 주 기록이 많은 순 → 인증한 날이 많은 순.
+ * 모두 같으면 원래 순서를 유지한다.
+ */
+export function rankByWeek<T extends { logs: readonly SwimLog[]; goal?: number }>(
+  rows: readonly T[],
+  dates: readonly string[],
+): T[] {
   return rows
-    .map((row, index) => ({ row, index, summary: summarizeWeek(row.logs, dates) }))
-    .sort((a, b) => b.summary.logs - a.summary.logs || b.summary.days - a.summary.days || a.index - b.index)
+    .map((row, index) => {
+      const summary = summarizeWeek(row.logs, dates);
+      const achieved = row.goal !== undefined && summary.days >= row.goal ? 1 : 0;
+      return { row, index, summary, achieved };
+    })
+    .sort(
+      (a, b) =>
+        b.achieved - a.achieved ||
+        b.summary.logs - a.summary.logs ||
+        b.summary.days - a.summary.days ||
+        a.index - b.index,
+    )
     .map(({ row }) => row);
 }
 
