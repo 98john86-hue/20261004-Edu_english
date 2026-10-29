@@ -1,0 +1,42 @@
+rules_version = '2';
+
+// 나만의 워터로그 챌린지 Firestore 보안 규칙
+// 배포: firebase deploy --only firestore:rules  (또는 Firebase 콘솔 → Firestore → 규칙에 붙여넣기)
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 사전 신청: 누구나 "새로 쓰기"만 가능. 휴대폰 번호가 있으니 읽기·수정·삭제는 막는다.
+    // (신청 목록은 Firebase 콘솔에서 확인)
+    match /signups/{signupId} {
+      allow read, update, delete: if false;
+      allow create: if isValidSignup(request.resource.data);
+    }
+
+    // [챌린지 시작 후] 참여자 정보와 하루 인증 기록
+    // 진행판은 모두가 보고, 기록은 로그인한 본인만 쓴다.
+    match /participants/{uid} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == uid;
+
+      match /days/{date} {
+        allow read: if true;
+        allow write: if request.auth != null && request.auth.uid == uid
+          && date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+      }
+    }
+
+    function isValidSignup(d) {
+      return d.keys().hasAll(['name', 'phone', 'email', 'frequency', 'agreed', 'createdAt'])
+        && d.keys().hasOnly(['name', 'phone', 'email', 'frequency', 'level', 'goal', 'referral', 'agreed', 'createdAt'])
+        && d.name is string && d.name.size() > 0 && d.name.size() <= 20
+        && d.phone is string && d.phone.matches('^01[016789][0-9]{7,8}$')
+        && d.email is string && d.email.size() <= 254 && d.email.matches('^[^@\\s]+@[^@\\s.]+(\\.[^@\\s.]+)+$')
+        && d.frequency in ['once', 'two-three', 'five', 'six']
+        && (!('level' in d) || d.level in ['beginner', 'intermediate', 'advanced'])
+        && (!('goal' in d) || (d.goal is string && d.goal.size() <= 200))
+        && (!('referral' in d) || d.referral in ['youtube', 'threads', 'blog', 'friend', 'other'])
+        && d.agreed == true
+        && d.createdAt == request.time;
+    }
+  }
+}

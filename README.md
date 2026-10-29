@@ -24,7 +24,8 @@ src/
     types.ts           Level, SwimLog, SignupData 등 타입
     distance.ts        총 거리 계산 (레인 길이 × 2 × 바퀴 수, 1바퀴 = 왕복)
     validation.ts      이메일·신청 폼 검증
-    signup.ts          submitSignup — 1초 뒤 성공하는 mock
+    signup.ts          submitSignup — Firebase 설정이 있으면 Firestore 저장, 없으면 mock
+    firebase/          config(환경 변수), client, signups(사전 신청 저장), checkins(인증 기록 뼈대)
     date.ts            기록 날짜 표시
     board.ts           주간 진행판: 주차 날짜, 주간 집계, 기록 많은 순 정렬
   components/
@@ -34,7 +35,7 @@ src/
   tests/               Vitest 단위 테스트
 ```
 
-## 실제 API로 교체
+## Firebase 연결
 
-`src/lib/signup.ts`의 `submitSignup` 내부만 `fetch` 호출로 바꾸면 됩니다. 시그니처
-`(data: SignupData) => Promise<SignupResult>`는 유지하세요.
+`.env.example`을 `.env.local`로 복사해 Firebase 웹 앱 설정값을 넣으면 사전 신청이 Firestore `signups`에 저장됩니다.
+값이 없으면 1초 뒤 성공하는 연습용(mock)으로 동작합니다. 자세한 순서는 [docs/firebase-setup.md](docs/firebase-setup.md)를 보세요.
